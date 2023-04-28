@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 import Text from '@mui/material/Typography';
-import { Tabs,Container,CssBaseline,Box, Divider } from '@mui/material';
+import { Tabs,Container,CssBaseline,Box } from '@mui/material';
+import Divider from '../Divider/Divider';
 import Navigation from './Navigation/Navigation';
-import AddUser from './AddUser/AddUser';
+import AddUserButton from './AddUserButton';
 
 export default function Header() {
   return (
@@ -45,7 +46,7 @@ export default function Header() {
                 </Text>
             </Box>
         <Navigation/>
-        <AddUser/>
+        <AddUserButton/>
     </Box>
         <Divider/>
     </header>
