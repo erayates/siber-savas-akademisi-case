@@ -1,15 +1,21 @@
-import axios from axios
+import axios from "axios"
 
 const api = axios.create({
-    baseURL: 'https://644baf394bdbc0cc3a97afd1.mockapi.io/api/v1/users',
+    baseURL: 'https://644baf394bdbc0cc3a97afd1.mockapi.io/api/v1'
 })
 
-export const getUsers = () => {
-    return api.get('/users')
+export const getUsers = async () => {
+    try{
+        const data = await api.get(`/users`);
+        return data
+    }catch(e){
+        console.log(e)
+    }
+    
 }
 
-export const getUserById = (id) => {
-    return api.get(`/users/${id}`)
+export const getUserById = async (id) => {
+    return await api.get(`/users/${id}`).then(res => res.data)
 }
 
 export const createUser = (payload) => {

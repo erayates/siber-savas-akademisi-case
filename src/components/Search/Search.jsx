@@ -17,7 +17,7 @@ function Search() {
     <>
       <Box sx={{
           display: 'flex',
-          margin: '30px 0',
+          margin: '35px 0',
           justifyContent: 'space-between'
       }}>
         <Box sx={{
