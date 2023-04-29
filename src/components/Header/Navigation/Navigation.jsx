@@ -1,14 +1,15 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
-export default function Navigation() {
-  const [value, setValue] = useState('AllUsers');
+import { TableContext } from '../../../context/TableContext';
 
+export default function Navigation() {
+  const {filterOption, setFilterOption} = useContext(TableContext);
   const handleChange = (event,newValue) => {
-    setValue(newValue);
+    setFilterOption(newValue);
   };
 
   const CustomTabs = styled(Tabs)({
@@ -47,17 +48,17 @@ export default function Navigation() {
     <nav>
         <Box sx={{ width: '100%', textTransform: 'none' }}>
         <CustomTabs
-            value={value}
+            value={filterOption}
             onChange={handleChange}
             textColor="secondary"
             
             indicatorColor="#2940D3"
         >
-            <Tab value="AllUsers" label="All Users" />
-            <Tab value="Contributor" label="Contributor" />
-            <Tab value="Author" label="Author" />
-            <Tab value="Administrator" label="Administrator" />
-            <Tab value="Subscriber" label="Subscriber" />
+            <Tab value="all" label="All Users"/>
+            <Tab value="contributor" label="Contributor" />
+            <Tab value="author" label="Author" />
+            <Tab value="administrator" label="Administrator" />
+            <Tab value="subscriber" label="Subscriber" />
         </CustomTabs>
         </Box>
     </nav>

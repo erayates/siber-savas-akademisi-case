@@ -1,22 +1,32 @@
-import { CheckBox } from '@mui/icons-material'
+
 import { Table, TableCell, TableContainer,TableHead,TableRow,TableBody, ThemeProvider, Avatar, TableFooter, TablePagination, Pagination,Stack, Checkbox } from '@mui/material'
 
-import React,{ useEffect,useState } from 'react'
+import React, { useEffect,useState, useContext } from 'react'
 
-import { getUsers } from '../services/api'
 import {theme} from '../provider/themeProvider'
 import { capitalizeFirstLetter } from '../utils/helpers'
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
+import { TableContext } from '../context/TableContext'
+
 function UserList() {
-   const [users, setUsers] = useState([])
    const [page, setPage] = useState(1);
    const [rowsPerPage, setRowsPerPage] = useState(10);
    const [selectedUsers, setSelectedUsers] = useState([]);
 
+   const [users, setUsers] = useState([]);
 
+   const { tableData,filterOption,filterTableData } = useContext(TableContext)
+
+   
+
+   useEffect(() => {
+        setUsers(filterTableData(filterOption))
+        console.log(filterOption)
+   },[filterOption,tableData])
+   
 
    const handleChangePage = (event, newPage) => {
         if (newPage < 0 || newPage >= Math.ceil(users.length / rowsPerPage) + 1) {
@@ -47,29 +57,12 @@ function UserList() {
         setSelectedUsers([...selectedUsers, id]);
       }
     } else {
-      
       setSelectedUsers(selectedUsers.filter(userId => userId !== id));
     }
   };
 
     
   const isSelected = (id) => selectedUsers.includes(id);
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            const response = await getUsers()
-            if(response.data.length > 0){
-                setUsers(response.data)
-            }
-        }
-        fetchUsers()
-    },[])
-    
-    console.log(selectedUsers)
-    
-  
-
-    
   return (
     <React.Fragment>
         <ThemeProvider theme={theme}>
@@ -77,7 +70,7 @@ function UserList() {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell width={'25px'}>
+                            <TableCell width={'50px'}>
                                 
                                 <Checkbox checked={selectedUsers.length === users.length}
                                     onChange={handleAllUsers}
@@ -87,12 +80,12 @@ function UserList() {
                                         alignItems: 'center',
                                     }}/>
                             </TableCell>
-                            <TableCell width={'50px'} sx={{fontWeigth:600}}>Avatar</TableCell>
-                            <TableCell sx={{fontWeight: 600}}>Name</TableCell>
-                            <TableCell sx={{fontWeight: 600}}>Username</TableCell>
-                            <TableCell sx={{fontWeight: 600}}>Email</TableCell>
-                            <TableCell sx={{fontWeight: 600}}>Role</TableCell>
-                            <TableCell sx={{fontWeight: 600}}>Edit</TableCell>   
+                            <TableCell width={'50px'} sx={{fontWeight: 600}}>Avatar</TableCell>
+                            <TableCell width={'200px'} sx={{fontWeight: 600}}>Name</TableCell>
+                            <TableCell width={'250px'} sx={{fontWeight: 600}}>Username</TableCell>
+                            <TableCell width={'250px'} sx={{fontWeight: 600}}>Email</TableCell>
+                            <TableCell width={'100px'} sx={{fontWeight: 600}}>Role</TableCell>
+                            <TableCell width={'100px'} sx={{fontWeight: 600}}>Edit</TableCell>   
                         </TableRow>
 
                     </TableHead>
