@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { TableContext } from '../context/TableContext'
+import DeleteConfirm from './DeleteConfirm';
 
 function UserList() {
    const [page, setPage] = useState(1);
@@ -18,13 +19,20 @@ function UserList() {
 
    const [users, setUsers] = useState([]);
 
+   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+   const [selectedUserId, setSelectedUserId] = useState('')
+
    const { tableData,filterOption,filterTableData } = useContext(TableContext)
 
-   
+   const handleOpenDeleteModal = (id) => {
+        setSelectedUserId(id)
+        setOpenDeleteModal(true)
+       
+   };
 
    useEffect(() => {
         setUsers(filterTableData(filterOption))
-        console.log(filterOption)
    },[filterOption,tableData])
    
 
@@ -58,6 +66,8 @@ function UserList() {
       setSelectedUsers(selectedUsers.filter(userId => userId !== id));
     }
   };
+
+
 
     
   const isSelected = (id) => selectedUsers.includes(id);
@@ -108,14 +118,14 @@ function UserList() {
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{capitalizeFirstLetter(user.role)}</TableCell>
                                     <TableCell>
-                                        <EditIcon/>
-                                        <DeleteIcon/>
+                                        <EditIcon sx={{cursor:"pointer"}}/>
+                                        <DeleteIcon sx={{cursor:"pointer"}} onClick={() => handleOpenDeleteModal(user.id)}/>
                                     </TableCell>
                                     
                                 </TableRow>
                             )
                         })}
-                        
+                        <DeleteConfirm openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} selectedUserId={selectedUserId}/>
                         
                     </TableBody>
                     <TableFooter>

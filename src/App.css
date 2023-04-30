@@ -16,3 +16,11 @@
     font-weight: 500 !important;
     color: #82868C;
 }
+
+.delete-confirm{
+    font-family: 'Montserrat' !important;
+    font-weight: 600 !important;
+    line-height: 15px !important;
+    font-size: 13px !important;
+    color: #82868C;
+}

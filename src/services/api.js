@@ -20,7 +20,7 @@ export const getUserById = async (id) => {
 
 export const createUser = async (payload) => {
     try{
-        await api.post(`/users`, payload).then(res => console.log(res.data))
+        await api.post(`/users`, payload).then(res => res.data)
             
     }catch(e){
         console.log(e)
@@ -32,6 +32,11 @@ export const updateUser = (id, payload) => {
     return api.put(`/users/${id}`, payload)
 }
 
-export const deleteUser = (id) => {
-    return api.delete(`/users/${id}`)
+export const deleteUser = async (id) => {
+    try{
+        await api.delete(`/users/${id}`).then(res => res.data)
+    }catch(e){
+        console.log(e)
+    }
+    
 }

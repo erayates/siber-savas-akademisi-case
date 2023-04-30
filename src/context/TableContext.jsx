@@ -18,12 +18,12 @@ const TableContextProvider = ({ children }) => {
 
     
     const filterTableData =  (filterOption) => {
-            if(filterOption === 'all'){
-                return tableData
-            }else{
-                return tableData.filter(user => user.role === filterOption)
-            }
+        if(filterOption === 'all'){
+            return tableData
+        }else{
+            return tableData.filter(user => user.role === filterOption)
         }
+    }
 
 
 

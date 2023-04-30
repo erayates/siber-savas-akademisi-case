@@ -106,7 +106,8 @@ export const theme = createTheme({
                     color: '#82868C',
                     width: '30px',
                     height: '30px',
-                    marginRight: '10px'
+                    marginRight: '10px',
+              
                 },
             },
         },
