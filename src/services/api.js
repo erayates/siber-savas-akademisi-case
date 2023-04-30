@@ -20,7 +20,8 @@ export const getUserById = async (id) => {
 
 export const createUser = async (payload) => {
     try{
-        await api.post(`/users`, payload)
+        await api.post(`/users`, payload).then(res => console.log(res.data))
+            
     }catch(e){
         console.log(e)
     }

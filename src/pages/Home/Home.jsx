@@ -15,7 +15,7 @@ function Home() {
                 <Header/>
                 <Search/>
                 <UserList/>
-                <UserForm/>
+              
             </Box>
         
         </Container>
