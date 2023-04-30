@@ -31,23 +31,7 @@ function Search() {
             marginRight: '16px'
           }}/>
           <FormControl variant="standard">
-            <Input id="component-simple" placeholder='Search...' sx={{
-              width: '200px',
-              height: '40px',
-              fontFamily: 'Montserrat',
-              fontSize: '13px',
-              fontWeight: '600',
-              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-              padding: '8px 16px',
-              outline: 'none',
-              borderRadius: '4px',
-              '&::before':{
-                borderBottom: 'none !important'
-              },
-              '&::after':{
-                borderBottom: 'none !important'
-              },
-            }}/>
+            <Input id="component-simple" placeholder='Search' />
           </FormControl>
       
         </Box>
@@ -62,7 +46,7 @@ function Search() {
               height: '30px',
               marginRight: '10px'
             }}/>
-            <span>Delete</span>
+            <span className='delete'>Delete</span>
         </Box>
       </Box>
       

@@ -1,9 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap');
 
-span{
+.delete{
     font-family: 'Montserrat' !important;
     font-weight: 600 !important;
     line-height: 15px !important;
     font-size: 13px !important;
+    color: #82868C;
+}
+
+
+.select-avatar{
+    line-height: 15px !important;
+    font-size: 13px !important;
+    font-family: 'Montserrat' !important;
+    font-weight: 500 !important;
     color: #82868C;
 }

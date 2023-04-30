@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 
 import Header from '../../components/Header/Header'
 import UserList from '../../components/UserList';
+import UserForm from '../../components/UserForm';
 function Home() {
   return (
     <React.Fragment>
@@ -14,6 +15,7 @@ function Home() {
                 <Header/>
                 <Search/>
                 <UserList/>
+                <UserForm/>
             </Box>
         
         </Container>

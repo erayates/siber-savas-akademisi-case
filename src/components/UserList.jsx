@@ -3,7 +3,7 @@ import { Table, TableCell, TableContainer,TableHead,TableRow,TableBody, ThemePro
 
 import React, { useEffect,useState, useContext } from 'react'
 
-import {theme} from '../provider/themeProvider'
+
 import { capitalizeFirstLetter } from '../utils/helpers'
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -43,10 +43,8 @@ function UserList() {
 
   const handleAllUsers = (event) => {
     if (event.target.checked) {
-      // tüm kullanıcıları seç
       setSelectedUsers(users.map(user => user.id));
     } else {
-      // seçili tüm kullanıcıları temizle
       setSelectedUsers([]);
     }
   };
@@ -65,7 +63,7 @@ function UserList() {
   const isSelected = (id) => selectedUsers.includes(id);
   return (
     <React.Fragment>
-        <ThemeProvider theme={theme}>
+        
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -103,26 +101,17 @@ function UserList() {
                                         <Checkbox onChange={(e) => handleChange(e,user.id)} checked={isSelected(user.id)} />
                                     </TableCell>
                                     <TableCell>
-                                        <Avatar alt="Cindy Baker" src={user.avatar} sx={{borderRadius: "4px"}}/>
+                                        <Avatar alt="User Avatar" src={user.avatar} sx={{borderRadius: "4px"}}/>
                                     </TableCell>
                                     <TableCell>{user.name}</TableCell>
                                     <TableCell>{user.username}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{capitalizeFirstLetter(user.role)}</TableCell>
                                     <TableCell>
-                                        <EditIcon sx={{
-                                            color: '#82868C',
-                                            width: '30px',
-                                            height: '30px',
-                                            marginRight: '10px'
-                                       
-                                        }}/>
-                                        <DeleteIcon sx={{
-                                            color: '#82868C',
-                                            width: '30px',
-                                            height: '30px',
-                                        }}/>
+                                        <EditIcon/>
+                                        <DeleteIcon/>
                                     </TableCell>
+                                    
                                 </TableRow>
                             )
                         })}
@@ -155,7 +144,7 @@ function UserList() {
                     </Table>
             </TableContainer>
             
-        </ThemeProvider>
+ 
     </React.Fragment>
   )
 }

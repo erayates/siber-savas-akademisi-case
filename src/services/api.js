@@ -18,8 +18,13 @@ export const getUserById = async (id) => {
     return await api.get(`/users/${id}`).then(res => res.data)
 }
 
-export const createUser = (payload) => {
-    return api.post(`/users`, payload)
+export const createUser = async (payload) => {
+    try{
+        await api.post(`/users`, payload)
+    }catch(e){
+        console.log(e)
+    }
+    
 }
 
 export const updateUser = (id, payload) => {

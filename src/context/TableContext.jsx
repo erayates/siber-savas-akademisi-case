@@ -16,6 +16,7 @@ const TableContextProvider = ({ children }) => {
         getTableData()
     },[])
 
+    
     const filterTableData =  (filterOption) => {
             if(filterOption === 'all'){
                 return tableData
