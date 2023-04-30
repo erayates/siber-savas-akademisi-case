@@ -1,14 +1,20 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState, useReducer,useContext} from 'react'
 import { Box, Input,Select,MenuItem,FormControl,Stack,Avatar,Modal } from '@mui/material'
 
 import {avatarList} from '../utils/avatars'
 import CustomButton from './CustomButton'
 import { createNewUser } from '../utils/helpers';
+import { ModalContext } from '../context/ModalContext';
 
-function UserForm({open,setOpen}) {
+function UserForm() {
+
     const [role,setRole] = useState('Role')
     const [avatars,setAvatars] = useState([])
     const [activeAvatar,setActiveAvatar] = useState('')
+
+    const {state,dispatch} = useContext(ModalContext)
+
+  
 
     const [formData,setFormData] = useState({
         name: '',
@@ -18,8 +24,13 @@ function UserForm({open,setOpen}) {
         avatar: '',
     })
 
+    
 
-    const handleClose = () => setOpen(false);
+
+
+    const handleClose = () => {
+        dispatch({type: 'CLOSE_USER_MODAL'})
+    };
 
 
     const handleChangeRole = (event) => {
@@ -60,10 +71,10 @@ function UserForm({open,setOpen}) {
         setAvatars(avatarList)
     },[])
 
-    
+    console.log(state)
   return (
     <Modal
-        open={open}
+        open={state.openUserModal}
         onClose={handleClose}
       
       >
@@ -120,7 +131,6 @@ function UserForm({open,setOpen}) {
                                     {
                                         avatars.map((avatar) => {
                                             return(
-                                                
                                                     <Avatar 
                                                         alt={avatar.name} 
                                                         src={avatar.src} 
@@ -130,7 +140,6 @@ function UserForm({open,setOpen}) {
                                                         onClick={() => handleActiveAvatar(avatar.id)}
                                                     >
                                                     </Avatar>
-                                                
                                             )
                                         })
                                     }

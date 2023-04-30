@@ -1,7 +1,7 @@
 
 import { Table, TableCell, TableContainer,TableHead,TableRow,TableBody, ThemeProvider, Avatar, TableFooter, TablePagination, Pagination,Stack, Checkbox } from '@mui/material'
 
-import React, { useEffect,useState, useContext } from 'react'
+import React, { useEffect,useState, useContext,useReducer } from 'react'
 
 
 import { capitalizeFirstLetter } from '../utils/helpers'
@@ -11,6 +11,11 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import { TableContext } from '../context/TableContext'
 import DeleteConfirm from './DeleteConfirm';
+import UserForm from './UserForm';
+import { ModalContext } from '../context/ModalContext';
+
+
+
 
 function UserList() {
    const [page, setPage] = useState(1);
@@ -19,15 +24,19 @@ function UserList() {
 
    const [users, setUsers] = useState([]);
 
-   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+   const {state,dispatch} = useContext(ModalContext)
+   
 
-   const [selectedUserId, setSelectedUserId] = useState('')
+
+
+   
 
    const { tableData,filterOption,filterTableData } = useContext(TableContext)
 
    const handleOpenDeleteModal = (id) => {
-        setSelectedUserId(id)
-        setOpenDeleteModal(true)
+        dispatch({type: 'OPEN_DELETE_MODAL'})
+        dispatch({type: 'SET_SELECTED_USER_ID',payload: id})
+    
        
    };
 
@@ -118,15 +127,16 @@ function UserList() {
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{capitalizeFirstLetter(user.role)}</TableCell>
                                     <TableCell>
-                                        <EditIcon sx={{cursor:"pointer"}}/>
+                                        <EditIcon />
                                         <DeleteIcon sx={{cursor:"pointer"}} onClick={() => handleOpenDeleteModal(user.id)}/>
                                     </TableCell>
                                     
                                 </TableRow>
                             )
                         })}
-                        <DeleteConfirm openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} selectedUserId={selectedUserId}/>
+                        <DeleteConfirm/>
                         
+                    
                     </TableBody>
                     <TableFooter>
                         <TableRow>

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState,useReducer,useContext} from 'react';
 
 import Text from '@mui/material/Typography';
 import { Tabs,Container,CssBaseline,Box } from '@mui/material';
@@ -6,12 +6,24 @@ import Divider from '../Divider/Divider';
 import Navigation from './Navigation/Navigation';
 import  CustomButton from '../CustomButton';
 import UserForm from '../UserForm';
+import { ModalContext } from '../../context/ModalContext';
 
 
 export default function Header() {
-    const [open, setOpen] = useState(false);
+    
+    const {state,dispatch} = useContext(ModalContext)
+    
 
-    const handleOpen = () => setOpen(true);
+
+    // const handleClose = () => {
+    //     dispatch({type: 'CLOSE_USER_MODAL'})
+    // };
+
+    const handleOpen = () => {
+        
+        dispatch({type: 'OPEN_USER_MODAL'})
+        
+    };
 
   return (
     <header>
@@ -59,7 +71,7 @@ export default function Header() {
 
             Add New User
         </CustomButton>
-        <UserForm open={open} setOpen={setOpen}/>
+        <UserForm />
     </Box>
         <Divider/>
     </header>

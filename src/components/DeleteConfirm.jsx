@@ -1,7 +1,8 @@
 import { Modal,Button,Box } from '@mui/material'
-import React,{ useContext }  from 'react'
+import React,{ useContext,useReducer }  from 'react'
 import { deleteUser } from '../services/api';
 import { TableContext } from '../context/TableContext';
+import { ModalContext } from '../context/ModalContext';
 
 
 
@@ -22,30 +23,35 @@ const style = {
   };
   
 
-function DeleteConfirm({openDeleteModal,setOpenDeleteModal,selectedUserId}) {
+function DeleteConfirm() {
     const {tableData,setTableData} = useContext(TableContext)
+    const {state,dispatch} = useContext(ModalContext)
+    
 
-    const handleDelete = (id) => {
-        deleteUser(id)
-        setTableData(tableData.filter((user) => user.id !== id))
-        setOpenDeleteModal(false);
+    const handleDelete = () => {
+        deleteUser(state.selectedUserId)
+        dispatch({type: 'CLOSE_DELETE_MODAL'})
+        setTableData(tableData.filter((user) => user.id !== state.selectedUserId))
+        
        
     }
 
 
-    const handleCloseDeleteModal = () => setOpenDeleteModal(false);
+    const handleCloseDeleteModal = () => {
+        dispatch({type: 'CLOSE_DELETE_MODAL'})
+    };
 
 
   return (
     <Modal 
-        open={openDeleteModal}
+        open={state.openDeleteModal}
         onClose={handleCloseDeleteModal}
     >
         <Box sx={style}>
             <span className='delete-confirm'>Are you sure want to delete this user?</span>
             
             <Box sx={{marginTop: '20px'}}>
-                <Button color="error" variant='contained' onClick={() => handleDelete(selectedUserId)}>Delete</Button>
+                <Button color="error" variant='contained' onClick={handleDelete}>Delete</Button>
                 <Button variant="outlined" onClick={handleCloseDeleteModal} sx={{marginLeft: '20px'}}>Cancel</Button>
             </Box>
         </Box>
