@@ -16,14 +16,9 @@ const TableContextProvider = ({ children }) => {
             case 'SET_FILTER_OPTION':
                 return {...state,filterOption: action.payload}
             case 'SET_SEARCH_TERM':
-                console.log(state)
                 return {...state,searchTerm: action.payload}
             case 'SET_SELECTED_USERS':
                 return {...state,selectedUsers: action.payload}
-            
-
-
-            
             default:
                 throw new Error(`Unhandled action type: ${action.type}`);
         }

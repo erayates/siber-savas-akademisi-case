@@ -1,21 +1,21 @@
 import React,{useEffect, useState,useContext} from 'react'
 import { Box, Input,Select,MenuItem,FormControl,Stack,Avatar,Modal } from '@mui/material'
 
-import {avatarList} from '../utils/avatars'
-import CustomButton from './CustomButton'
-import { capitalizeFirstLetter } from '../utils/helpers';
-import { ModalContext } from '../context/ModalContext';
+import {avatarList} from '../../utils/avatars'
+import CustomButton from '../CustomButton'
+import { capitalizeFirstLetter, validateFormData } from '../../utils/helpers';
+import { ModalContext } from '../../context/ModalContext';
 
-import { styles } from './CustomStyles';
+import { styles } from '../CustomStyles';
 
-import { createUser, updateUser } from '../services/api';
-import { TableContext } from '../context/TableContext';
+import { createUser, updateUser } from '../../services/api';
+import { TableContext } from '../../context/TableContext';
 
 
-function UserForm() {
+function UserFormModal() {
     const [avatars,setAvatars] = useState([])
     const [activeAvatar,setActiveAvatar] = useState('')
-    const [user,setUser] = useState({})
+
     const [role, setRole] = useState('Role');
 
     const {refreshDataTable} = useContext(TableContext)
@@ -27,21 +27,25 @@ function UserForm() {
 
     useEffect(() => {
         setAvatars(avatarList)
+       
     },[])
 
     useEffect(() => {
         if(state.selectedUser){
-            setUser(state.selectedUser)
+           
             setFormData(state.selectedUser)
-          
+            avatars.map((avatar) => {
+                state.selectedUser.avatar === avatar.src && setActiveAvatar(avatar.id)
+            })
+            state.selectedUser.role !== undefined && setRole(capitalizeFirstLetter(state.selectedUser.role))
         }
-    }, [state])
+    }, [state.selectedUser])
 
     const handleClose = () => {
         dispatch({type: 'CLOSE_USER_MODAL'})
         dispatch({type: 'SET_SELECTED_USER',payload: null})
         setFormData({})
-        
+        setRole('Role')
     };
 
 
@@ -56,13 +60,17 @@ function UserForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(state.selectedUser){
-            updateUser(state.selectedUser.id,formData)
-            setFormData({})
-            dispatch({type: 'CLOSE_USER_MODAL'})
+            if(validateFormData(formData)){
+                updateUser(state.selectedUser.id,formData)
+                setFormData({})
+                dispatch({type: 'CLOSE_USER_MODAL'})
+            }
         }else{
-            createUser(formData)
-            setFormData({})
-            dispatch({type: 'CLOSE_USER_MODAL'})
+            if(validateFormData(formData)){
+                createUser(formData)
+                setFormData({})
+                dispatch({type: 'CLOSE_USER_MODAL'})
+            }
         }
     }
 
@@ -71,10 +79,11 @@ function UserForm() {
     }
 
     const handleActiveAvatar = (avatar) => {
+     
         setActiveAvatar(avatar)
         setFormData({
             ...formData,
-            avatar: avatar,
+            avatar: avatars.filter((item) => item.id === avatar)[0].src,
         })
     }
 
@@ -100,7 +109,7 @@ function UserForm() {
                     </FormControl>
 
                     <FormControl sx={{width: "100%"}}>
-                        <Select value={formData.role} onChange={handleChangeRole} sx={styles.userFormInputStyle}>
+                        <Select value={role} onChange={handleChangeRole} sx={styles.userFormInputStyle}>
                             <MenuItem value={'Role'} disabled>Role</MenuItem>
                             <MenuItem value={'Contributor'}>Contributor</MenuItem>
                             <MenuItem value={'Subscriber'}>Subscriber</MenuItem>
@@ -115,12 +124,13 @@ function UserForm() {
                                 {
                                     avatars.map((avatar) => {
                                         return(
+                                                
                                                 <Avatar 
                                                     alt={avatar.name} 
                                                     src={avatar.src} 
                                                     name="avatar"
                                                     key={avatar.id} 
-                                                    sx={[styles.userFormAvatarStyle,(avatar.id === activeAvatar ? styles.userFormAvatarActiveStyle : null)]}
+                                                    sx={[styles.userFormAvatarStyle,(avatar.id === activeAvatar ? styles.userFormAvatarActiveStyle : null  ) ]}
                                                     onClick={() => handleActiveAvatar(avatar.id)}
                                                 >
                                                 </Avatar>
@@ -147,4 +157,4 @@ function UserForm() {
   )
 }
 
-export default UserForm
+export default UserFormModal

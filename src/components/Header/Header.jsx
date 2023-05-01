@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 
 import Navigation from './Navigation/Navigation';
 
-import UserForm from '../UserForm';
+
 import { ModalContext } from '../../context/ModalContext';
 
 import { styles } from '../CustomStyles';
@@ -14,6 +14,7 @@ import CustomButton from '../CustomButton';
 
 import UsersIcon from '../Icons/UsersIcon';
 import PlusIcon from '../Icons/PlusIcon';
+import UserFormModal from '../Modals/UserFormModal';
 
 
 
@@ -40,7 +41,7 @@ export default function Header() {
             <PlusIcon/>
             Add New User
         </CustomButton>
-        <UserForm />
+        <UserFormModal />
     </Box>
         
     </header>

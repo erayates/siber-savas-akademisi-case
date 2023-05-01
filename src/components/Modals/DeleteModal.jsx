@@ -1,9 +1,9 @@
 import { Modal,Button,Box } from '@mui/material'
 import React,{ useContext,useReducer }  from 'react'
-import { deleteUser } from '../services/api';
-import { TableContext } from '../context/TableContext';
-import { ModalContext } from '../context/ModalContext';
-import { styles } from './CustomStyles';
+import { deleteUser } from '../../services/api';
+import { TableContext } from '../../context/TableContext';
+import { ModalContext } from '../../context/ModalContext';
+import { styles } from '../CustomStyles';
 
 
 

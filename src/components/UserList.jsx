@@ -10,8 +10,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { TableContext } from '../context/TableContext'
-import DeleteModal from './DeleteModal';
-import UserForm from './UserForm';
+import DeleteModal from './Modals/DeleteModal';
+import UserFormModal from './Modals/UserFormModal';
 import { ModalContext } from '../context/ModalContext';
 
 
@@ -21,10 +21,10 @@ function UserList() {
    const [page, setPage] = useState(1);
    const [rowsPerPage, setRowsPerPage] = useState(10);
 
-
-   const [users, setUsers] = useState([]);
+   const [users, setUsers] = useState([]);   
    
    const { tableState,filterTableData,tableDispatch} = useContext(TableContext)
+   
    const {dispatch} = useContext(ModalContext)
 
    
@@ -120,6 +120,7 @@ function UserList() {
                                         <Checkbox onChange={(e) => handleChange(e,user.id)} checked={isSelected(user.id)} />
                                     </TableCell>
                                     <TableCell>
+                                                                           
                                         <Avatar alt="User Avatar" src={user.avatar} sx={{borderRadius: "4px"}}/>
                                     </TableCell>
                                     <TableCell>{user.name}</TableCell>
@@ -135,7 +136,7 @@ function UserList() {
                             )
                         })}
                         <DeleteModal/>
-                        <UserForm/>
+                        <UserFormModal/>
                         
                     
                     </TableBody>
