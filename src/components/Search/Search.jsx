@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React, { useContext,useState } from 'react'
+import React, { useContext,useEffect,useState } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,14 +9,29 @@ import Input from '@mui/material/Input';
 
 import { styles } from '../CustomStyles';
 
-import TableContext from '../../context/TableContext';
+import {TableContext} from '../../context/TableContext';
+import { deleteSelectedUsers, deleteUser } from '../../services/api';
 
-function Search({dispatch}) {
- 
+function Search() {
+  const [searchTerm,setSearchTerm] = useState('')
+  const {tableState,tableDispatch,refreshDataTable} = useContext(TableContext)
 
-  const handleSearchTermChange = (e) => {
-    dispatch({type: 'SET_SEARCH_TERM',payload: e.target.value})    
-  }
+  useEffect(() => {
+    tableDispatch({type: 'SET_SEARCH_TERM',payload: searchTerm});
+  }, [searchTerm,tableDispatch]);
+
+  const handleChangeSearchTerm = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleDeleteSelectedUsers = () => {
+    if(tableState.selectedUsers.length > 0){
+      if(deleteSelectedUsers(tableState.selectedUsers)){
+        refreshDataTable()
+      }
+
+    } 
+  };
   
   return (
     <>
@@ -24,11 +39,11 @@ function Search({dispatch}) {
         <Box sx={styles.searchCompInnerBoxStyle}>
           <SearchIcon sx={styles.searchCompSearchIconStyle}/>
           <FormControl variant="standard">
-            <Input id="component-simple" placeholder='Search' onChange={handleSearchTermChange}/>
+            <Input id="component-simple" placeholder='Search' onChange={handleChangeSearchTerm}/>
           </FormControl>
       
         </Box>
-        <Box sx={styles.searchCompInnerBoxStyle}>
+        <Box sx={styles.searchCompDeleteBoxStyle} onClick={handleDeleteSelectedUsers}>
             <DeleteIcon sx={styles.searchCompDeleteIconStyle}/>
             <span className='delete'>Delete</span>
         </Box>

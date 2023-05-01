@@ -87,15 +87,15 @@ function UserForm() {
         <Box sx={styles.userFormBoxStyle}>
             <Box sx={styles.userFormInnerBoxStyle}>
                 <form onSubmit={handleSubmit} method='POST'>
-                    <FormControl>
+                    <FormControl sx={{width: "100%"}}>
                         <Input name="name" placeholder='Full Name' value={formData.name} sx={styles.userFormInputStyle} onChange={handleChangeInput}></Input>
                     </FormControl>
 
-                    <FormControl>
+                    <FormControl sx={{width: "100%"}}>
                         <Input name="username" placeholder='Username' value={formData.username} sx={styles.userFormInputStyle} onChange={handleChangeInput}></Input>
                     </FormControl>
 
-                    <FormControl>
+                    <FormControl sx={{width: "100%"}}>
                         <Input name="email" placeholder='Email' value={formData.email} sx={styles.userFormInputStyle} onChange={handleChangeInput}></Input>
                     </FormControl>
 
@@ -130,12 +130,12 @@ function UserForm() {
                             </Stack>
                         
                     </Box>
-                    <Box>
+                    <Box sx={{display:'flex', justifyContent:'center'}}>
                         {state.selectedUser ? 
-                            <CustomButton sx={{marginTop: '30px'}} type='submit'>
+                            <CustomButton type='submit'>
                                 Edit User
                             </CustomButton> :    
-                            <CustomButton sx={{marginTop: '30px'}} type='submit'>
+                            <CustomButton type='submit'>
                                 Create User
                             </CustomButton>
                         }

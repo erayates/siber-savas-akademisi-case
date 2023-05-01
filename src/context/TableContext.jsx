@@ -6,7 +6,8 @@ const TableContextProvider = ({ children }) => {
     const initialState = {
         tableData: [],
         filterOption: 'all',
-        searchTerm: ''
+        searchTerm: '',
+        selectedUsers: [],
     }
     const reducer = (state,action) => {
         switch(action.type){
@@ -17,8 +18,10 @@ const TableContextProvider = ({ children }) => {
             case 'SET_SEARCH_TERM':
                 console.log(state)
                 return {...state,searchTerm: action.payload}
+            case 'SET_SELECTED_USERS':
+                return {...state,selectedUsers: action.payload}
+            
 
-         
 
             
             default:
@@ -27,11 +30,6 @@ const TableContextProvider = ({ children }) => {
     }
 
     const [tableState,tableDispatch] = useReducer(reducer,initialState)
-
-
-
-
-
 
     const getTableData = async () => {
         const response = await getUsers()
@@ -66,9 +64,7 @@ const TableContextProvider = ({ children }) => {
     const refreshDataTable = (id) => {
         if(id){
             tableDispatch({type: 'SET_FILTER_OPTION',payload: tableState.tableData.filter((user) => user.id !== id)})
-            
         }
-       
         else getTableData()
     }
 

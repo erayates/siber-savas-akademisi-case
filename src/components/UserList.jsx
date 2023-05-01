@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { TableContext } from '../context/TableContext'
-import DeleteConfirm from './DeleteConfirm';
+import DeleteModal from './DeleteModal';
 import UserForm from './UserForm';
 import { ModalContext } from '../context/ModalContext';
 
@@ -20,17 +20,21 @@ import { ModalContext } from '../context/ModalContext';
 function UserList() {
    const [page, setPage] = useState(1);
    const [rowsPerPage, setRowsPerPage] = useState(10);
-   const [selectedUsers, setSelectedUsers] = useState([]);
+
 
    const [users, setUsers] = useState([]);
    
-   const { tableState,filterTableData} = useContext(TableContext)
+   const { tableState,filterTableData,tableDispatch} = useContext(TableContext)
    const {dispatch} = useContext(ModalContext)
+
+   
 
    useEffect(() => {
         setUsers(filterTableData())
    },[tableState.filterOption,tableState.tableData,tableState.searchTerm])
    
+  
+
    
    const handleOpenUserModal = (user) => {
       dispatch({type: 'OPEN_USER_MODAL'})
@@ -38,7 +42,7 @@ function UserList() {
     }
 
     
-    const handleOpenDeleteModal = (id,dispatch) => {
+    const handleOpenDeleteModal = (id) => {
       dispatch({type: 'OPEN_DELETE_MODAL'})
       dispatch({type: 'SET_SELECTED_USER_ID',payload: id})
     };
@@ -58,25 +62,27 @@ function UserList() {
 
   const handleAllUsers = (event) => {
     if (event.target.checked) {
-      setSelectedUsers(users.map(user => user.id));
+      tableDispatch({type: 'SET_SELECTED_USERS',payload: users.map((user) => user.id)})
     } else {
-      setSelectedUsers([]);
+      tableDispatch({type: 'SET_SELECTED_USERS',payload: []})
     }
   };
+  
 
 
   const handleChange = (event, id) => {
     if (event.target.checked) {
-      if(!selectedUsers.includes(id)){
-        setSelectedUsers([...selectedUsers, id]);
+      if(!tableState.selectedUsers.includes(id)){
+        tableDispatch({type: 'SET_SELECTED_USERS',payload: [...tableState.selectedUsers, id]})
       }
     } else {
-      setSelectedUsers(selectedUsers.filter(userId => userId !== id));
+     
+      tableDispatch({type: 'SET_SELECTED_USERS',payload: tableState.selectedUsers.filter(userId => userId !== id)})
     }
   };
 
-  const isSelected = (id) => selectedUsers.includes(id);
-  
+  const isSelected = (id) => tableState.selectedUsers.includes(id);
+
   return (
     <React.Fragment>      
             <TableContainer>
@@ -85,9 +91,9 @@ function UserList() {
                         <TableRow>
                             <TableCell width={'50px'}>
                                 
-                                <Checkbox checked={selectedUsers.length === users.length}
+                                <Checkbox checked={tableState.selectedUsers.length === users.length}
                                     onChange={handleAllUsers}
-                                    indeterminate={selectedUsers.length > 0 && selectedUsers.length < users.length}
+                                    indeterminate={tableState.selectedUsers.length > 0 && tableState.selectedUsers.length < users.length}
                                     sx={{
                                         display: 'flex',
                                         alignItems: 'center',
@@ -103,9 +109,7 @@ function UserList() {
 
                     </TableHead>
                     <TableBody>
-                        {
-                            
-                        }
+                        
                         {(rowsPerPage > 0
                             ? users.slice((page-1) * rowsPerPage, (page-1) * rowsPerPage + rowsPerPage)
                             : users).map((user) => {
@@ -130,7 +134,7 @@ function UserList() {
                                 </TableRow>
                             )
                         })}
-                        <DeleteConfirm/>
+                        <DeleteModal/>
                         <UserForm/>
                         
                     

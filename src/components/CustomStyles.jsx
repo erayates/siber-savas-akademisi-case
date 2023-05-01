@@ -89,7 +89,12 @@ export const styles = {
 
     searchCompInnerBoxStyle:{
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    searchCompDeleteBoxStyle:{
+        display: 'flex',
+        alignItems: 'center',
+        cursor:'pointer'
     },
 
     searchCompSearchIconStyle: {
@@ -104,7 +109,8 @@ export const styles = {
         color: '#82868C',
         width: '30px',
         height: '30px',
-        marginRight: '10px'
+        marginRight: '10px',
+       
     }
     
 

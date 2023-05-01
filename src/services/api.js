@@ -41,3 +41,15 @@ export const deleteUser = async (id) => {
     }
     
 }
+
+export const deleteSelectedUsers = async (ids) => {
+    try{
+        ids.map(async(id) => {
+            await api.delete(`/users/${id}`).then(res => res.data)
+        })
+ 
+    }catch(e){
+        console.log(e)
+    }
+    
+}

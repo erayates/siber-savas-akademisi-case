@@ -9,7 +9,7 @@ import { styles } from './CustomStyles';
 
   
 
-function DeleteConfirm() {
+function DeleteModal() {
     const {refreshDataTable} = useContext(TableContext)
     const {state,dispatch} = useContext(ModalContext)
     
@@ -46,4 +46,4 @@ function DeleteConfirm() {
   )
 }
 
-export default DeleteConfirm
+export default DeleteModal
