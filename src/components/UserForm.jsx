@@ -1,35 +1,47 @@
-import React,{useEffect, useState, useReducer,useContext} from 'react'
+import React,{useEffect, useState,useContext} from 'react'
 import { Box, Input,Select,MenuItem,FormControl,Stack,Avatar,Modal } from '@mui/material'
 
 import {avatarList} from '../utils/avatars'
 import CustomButton from './CustomButton'
-import { createNewUser } from '../utils/helpers';
+import { capitalizeFirstLetter } from '../utils/helpers';
 import { ModalContext } from '../context/ModalContext';
 
-function UserForm() {
+import { styles } from './CustomStyles';
 
-    const [role,setRole] = useState('Role')
+import { createUser, updateUser } from '../services/api';
+import { TableContext } from '../context/TableContext';
+
+
+function UserForm() {
     const [avatars,setAvatars] = useState([])
     const [activeAvatar,setActiveAvatar] = useState('')
+    const [user,setUser] = useState({})
+    const [role, setRole] = useState('Role');
 
+    const {refreshDataTable} = useContext(TableContext)
     const {state,dispatch} = useContext(ModalContext)
-
+    
   
 
-    const [formData,setFormData] = useState({
-        name: '',
-        username: '',
-        email: '',
-        role: '',
-        avatar: '',
-    })
+    const [formData,setFormData] = useState({})
 
-    
+    useEffect(() => {
+        setAvatars(avatarList)
+    },[])
 
-
+    useEffect(() => {
+        if(state.selectedUser){
+            setUser(state.selectedUser)
+            setFormData(state.selectedUser)
+          
+        }
+    }, [state])
 
     const handleClose = () => {
         dispatch({type: 'CLOSE_USER_MODAL'})
+        dispatch({type: 'SET_SELECTED_USER',payload: null})
+        setFormData({})
+        
     };
 
 
@@ -37,21 +49,21 @@ function UserForm() {
         setRole(event.target.value);
         setFormData({
             ...formData,
-            role: event.target.value,
+            role: event.target.value.toLowerCase(),
         })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        createNewUser(formData)
-        setFormData({
-            name: '',
-            username: '',
-            email: '',
-            role: '',
-            avatar: '',
-        })
-
+        if(state.selectedUser){
+            updateUser(state.selectedUser.id,formData)
+            setFormData({})
+            dispatch({type: 'CLOSE_USER_MODAL'})
+        }else{
+            createUser(formData)
+            setFormData({})
+            dispatch({type: 'CLOSE_USER_MODAL'})
+        }
     }
 
     const handleChangeInput = (event) => {
@@ -67,54 +79,28 @@ function UserForm() {
     }
 
 
-    useEffect(() => {
-        setAvatars(avatarList)
-    },[])
+  
 
-    console.log(state)
+    
   return (
-    <Modal
-        open={state.openUserModal}
-        onClose={handleClose}
-      
-      >
-        <Box sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '300px',
-            
-            padding: '30px',
-            borderRadius: '8px',
-            boxShadow: '0px 7px 20px rgba(40, 41, 61, 0.08)',
-            border: '1px solid #E3E6EB',
-            backgroundColor: '#fff',
-
-        }}>
-            <Box sx={{
-                display:'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-            }}>
+    <Modal open={state.openUserModal} onClose={handleClose}>
+        <Box sx={styles.userFormBoxStyle}>
+            <Box sx={styles.userFormInnerBoxStyle}>
                 <form onSubmit={handleSubmit} method='POST'>
-                    <FormControl sx={{width: '100%'}}>
-                        <Input name="name" placeholder='Full Name' value={formData.name} sx={{marginBottom: '30px', width: '100%'}} onChange={handleChangeInput}></Input>
+                    <FormControl>
+                        <Input name="name" placeholder='Full Name' value={formData.name} sx={styles.userFormInputStyle} onChange={handleChangeInput}></Input>
                     </FormControl>
-                    <FormControl sx={{width: '100%'}}>
-                        <Input name="username" placeholder='Username' value={formData.username} sx={{marginBottom: '30px', width: '100%'}} onChange={handleChangeInput}></Input>
-                    </FormControl>
-                    <FormControl sx={{width: '100%'}}>
-                        <Input name="email" placeholder='Email' value={formData.email} sx={{marginBottom: '30px',  width: '100%'}} onChange={handleChangeInput}></Input>
-                    </FormControl>
-                    <FormControl sx={{width: '100%'}}>
-                        <Select
-                            value={role}
-                            onChange={handleChangeRole}
 
-                            sx={{width: '100%', display: 'block'}}
-                        >
+                    <FormControl>
+                        <Input name="username" placeholder='Username' value={formData.username} sx={styles.userFormInputStyle} onChange={handleChangeInput}></Input>
+                    </FormControl>
+
+                    <FormControl>
+                        <Input name="email" placeholder='Email' value={formData.email} sx={styles.userFormInputStyle} onChange={handleChangeInput}></Input>
+                    </FormControl>
+
+                    <FormControl sx={{width: "100%"}}>
+                        <Select value={formData.role} onChange={handleChangeRole} sx={styles.userFormInputStyle}>
                             <MenuItem value={'Role'} disabled>Role</MenuItem>
                             <MenuItem value={'Contributor'}>Contributor</MenuItem>
                             <MenuItem value={'Subscriber'}>Subscriber</MenuItem>
@@ -123,36 +109,38 @@ function UserForm() {
                         </Select>
                     </FormControl>
 
-                        <Box sx={{marginTop: '40px', width: '100%'}}>
+                    <Box sx={styles.userFormInputStyle}>
+                        <span className='select-avatar' >Select Avatar:</span>
+                            <Stack direction="row" spacing={1.5} sx={{marginTop: '16px'}}>
+                                {
+                                    avatars.map((avatar) => {
+                                        return(
+                                                <Avatar 
+                                                    alt={avatar.name} 
+                                                    src={avatar.src} 
+                                                    name="avatar"
+                                                    key={avatar.id} 
+                                                    sx={[styles.userFormAvatarStyle,(avatar.id === activeAvatar ? styles.userFormAvatarActiveStyle : null)]}
+                                                    onClick={() => handleActiveAvatar(avatar.id)}
+                                                >
+                                                </Avatar>
+                                        )
+                                    })
+                                }
+                            </Stack>
                         
-                            <span className='select-avatar' >Select Avatar:</span>
-                            
-                                <Stack direction="row" spacing={1.5} sx={{marginTop: '16px'}}>
-                                    {
-                                        avatars.map((avatar) => {
-                                            return(
-                                                    <Avatar 
-                                                        alt={avatar.name} 
-                                                        src={avatar.src} 
-                                                        name="avatar"
-                                                        key={avatar.id} 
-                                                        sx={{borderRadius: '4px',boxShadow: '0 0 3px 1px rgba(0,0,0,0.1)', cursor:'pointer', ...(avatar.id === activeAvatar && {boxShadow: '0 0px 10px 1px rgba(41, 64, 211, 0.8)'})}}
-                                                        onClick={() => handleActiveAvatar(avatar.id)}
-                                                    >
-                                                    </Avatar>
-                                            )
-                                        })
-                                    }
-                                </Stack>
-                         
-                        </Box>
-                        <Box>
+                    </Box>
+                    <Box>
+                        {state.selectedUser ? 
                             <CustomButton sx={{marginTop: '30px'}} type='submit'>
-                                    Create User
+                                Edit User
+                            </CustomButton> :    
+                            <CustomButton sx={{marginTop: '30px'}} type='submit'>
+                                Create User
                             </CustomButton>
-                        </Box>
-                    </form>
-                
+                        }
+                    </Box>
+                </form>
             </Box>
         </Box>
     </Modal>

@@ -5,15 +5,18 @@ import Container from '@mui/material/Container';
 
 import Header from '../../components/Header/Header'
 import UserList from '../../components/UserList';
-import UserForm from '../../components/UserForm';
+import { TableContext } from '../../context/TableContext';
+import { useContext } from 'react';
+
 function Home() {
+  const {tableDispatch} = useContext(TableContext)
   return (
     <React.Fragment>
       
         <Container maxWidth="lg">
             <Box sx={{ bgcolor: 'white', height: '100vh' }}>
                 <Header/>
-                <Search/>
+                <Search dispatch = {tableDispatch}/>
                 <UserList/>
               
             </Box>

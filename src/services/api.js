@@ -19,8 +19,9 @@ export const getUserById = async (id) => {
 }
 
 export const createUser = async (payload) => {
+    const newUser = {...payload}
     try{
-        await api.post(`/users`, payload).then(res => res.data)
+        await api.post(`/users`, newUser).then(res => res.data)
             
     }catch(e){
         console.log(e)
@@ -28,8 +29,8 @@ export const createUser = async (payload) => {
     
 }
 
-export const updateUser = (id, payload) => {
-    return api.put(`/users/${id}`, payload)
+export const updateUser = async (id, payload) => {
+    return await api.put(`/users/${id}`, payload).then(res => res.data)
 }
 
 export const deleteUser = async (id) => {

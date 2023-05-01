@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React from 'react'
+import React, { useContext,useState } from 'react'
 
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,45 +7,29 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 
+import { styles } from '../CustomStyles';
 
+import TableContext from '../../context/TableContext';
 
+function Search({dispatch}) {
+ 
 
-
-
-function Search() {
+  const handleSearchTermChange = (e) => {
+    dispatch({type: 'SET_SEARCH_TERM',payload: e.target.value})    
+  }
+  
   return (
     <>
-      <Box sx={{
-          display: 'flex',
-          margin: '35px 0',
-          justifyContent: 'space-between'
-      }}>
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center'
-        }}>
-          <SearchIcon sx={{
-            color: '#82868C',
-            width: '30px',
-            height: '30px',
-            marginRight: '16px'
-          }}/>
+      <Box sx={styles.searchCompBoxStyle}>
+        <Box sx={styles.searchCompInnerBoxStyle}>
+          <SearchIcon sx={styles.searchCompSearchIconStyle}/>
           <FormControl variant="standard">
-            <Input id="component-simple" placeholder='Search' />
+            <Input id="component-simple" placeholder='Search' onChange={handleSearchTermChange}/>
           </FormControl>
       
         </Box>
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-
-        }}>
-            <DeleteIcon sx={{
-              color: '#82868C',
-              width: '30px',
-              height: '30px',
-              marginRight: '10px'
-            }}/>
+        <Box sx={styles.searchCompInnerBoxStyle}>
+            <DeleteIcon sx={styles.searchCompDeleteIconStyle}/>
             <span className='delete'>Delete</span>
         </Box>
       </Box>

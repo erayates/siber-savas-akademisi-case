@@ -1,5 +1,8 @@
 import User from "../models/Users";
+import { useContext } from "react";
 import { createUser } from "../services/api";
+
+
 
 export const capitalizeFirstLetter  = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -10,3 +13,5 @@ export const createNewUser = ({name,username,email,role,avatar}) => {
     createUser(newUser)
 
 }
+
+

@@ -1,7 +1,7 @@
 
-import { Table, TableCell, TableContainer,TableHead,TableRow,TableBody, ThemeProvider, Avatar, TableFooter, TablePagination, Pagination,Stack, Checkbox } from '@mui/material'
+import { Table, TableCell, TableContainer,TableHead,TableRow,TableBody, Avatar, TableFooter, TablePagination, Pagination,Stack, Checkbox } from '@mui/material'
 
-import React, { useEffect,useState, useContext,useReducer } from 'react'
+import React, { useEffect,useState, useContext } from 'react'
 
 
 import { capitalizeFirstLetter } from '../utils/helpers'
@@ -23,28 +23,27 @@ function UserList() {
    const [selectedUsers, setSelectedUsers] = useState([]);
 
    const [users, setUsers] = useState([]);
-
-   const {state,dispatch} = useContext(ModalContext)
    
-
-
-
-   
-
-   const { tableData,filterOption,filterTableData } = useContext(TableContext)
-
-   const handleOpenDeleteModal = (id) => {
-        dispatch({type: 'OPEN_DELETE_MODAL'})
-        dispatch({type: 'SET_SELECTED_USER_ID',payload: id})
-    
-       
-   };
+   const { tableState,filterTableData} = useContext(TableContext)
+   const {dispatch} = useContext(ModalContext)
 
    useEffect(() => {
-        setUsers(filterTableData(filterOption))
-   },[filterOption,tableData])
+        setUsers(filterTableData())
+   },[tableState.filterOption,tableState.tableData,tableState.searchTerm])
    
+   
+   const handleOpenUserModal = (user) => {
+      dispatch({type: 'OPEN_USER_MODAL'})
+      dispatch({type: 'SET_SELECTED_USER',payload: user})
+    }
 
+    
+    const handleOpenDeleteModal = (id,dispatch) => {
+      dispatch({type: 'OPEN_DELETE_MODAL'})
+      dispatch({type: 'SET_SELECTED_USER_ID',payload: id})
+    };
+
+   
    const handleChangePage = (event, newPage) => {
         if (newPage < 0 || newPage >= Math.ceil(users.length / rowsPerPage) + 1) {
             return;
@@ -57,7 +56,6 @@ function UserList() {
         setPage(0);
   };
 
-
   const handleAllUsers = (event) => {
     if (event.target.checked) {
       setSelectedUsers(users.map(user => user.id));
@@ -65,6 +63,7 @@ function UserList() {
       setSelectedUsers([]);
     }
   };
+
 
   const handleChange = (event, id) => {
     if (event.target.checked) {
@@ -76,13 +75,10 @@ function UserList() {
     }
   };
 
-
-
-    
   const isSelected = (id) => selectedUsers.includes(id);
+  
   return (
-    <React.Fragment>
-        
+    <React.Fragment>      
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -127,7 +123,7 @@ function UserList() {
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{capitalizeFirstLetter(user.role)}</TableCell>
                                     <TableCell>
-                                        <EditIcon />
+                                        <EditIcon sx={{cursor:'pointer'}} onClick={() => handleOpenUserModal(user)}/>
                                         <DeleteIcon sx={{cursor:"pointer"}} onClick={() => handleOpenDeleteModal(user.id)}/>
                                     </TableCell>
                                     
@@ -135,15 +131,14 @@ function UserList() {
                             )
                         })}
                         <DeleteConfirm/>
+                        <UserForm/>
                         
                     
                     </TableBody>
                     <TableFooter>
                         <TableRow>
                         <TablePagination
-                            
                             count={Math.ceil(users.length / rowsPerPage)}
-                            
                             page={page}
                             rowsPerPageOptions={[-1]}
                             

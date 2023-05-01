@@ -7,9 +7,9 @@ import { styled } from '@mui/material/styles';
 import { TableContext } from '../../../context/TableContext';
 
 export default function Navigation() {
-  const {filterOption, setFilterOption} = useContext(TableContext);
+  const {tableState,tableDispatch} = useContext(TableContext);
   const handleChange = (event,newValue) => {
-    setFilterOption(newValue);
+    tableDispatch({type: 'SET_FILTER_OPTION', payload: newValue})
   };
 
   const CustomTabs = styled(Tabs)({
@@ -48,7 +48,7 @@ export default function Navigation() {
     <nav>
         <Box sx={{ width: '100%', textTransform: 'none' }}>
         <CustomTabs
-            value={filterOption}
+            value={tableState.filterOption}
             onChange={handleChange}
             textColor="secondary"
             

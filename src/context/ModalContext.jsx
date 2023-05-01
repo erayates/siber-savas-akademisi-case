@@ -6,7 +6,8 @@ const ModalContextProvider = ({ children }) => {
     const initialState = {
         openUserModal: false,
         openDeleteModal: false,
-        selectedUserId: ''
+        selectedUserId: '',
+        selectedUser: {}
     }
 
     const reducer = (state,action) => {
@@ -21,6 +22,9 @@ const ModalContextProvider = ({ children }) => {
                 return {...state,openUserModal: false}
             case 'SET_SELECTED_USER_ID':
                 return {...state,selectedUserId: action.payload}
+            case 'SET_SELECTED_USER':
+                return {...state,selectedUser: action.payload}
+
             default:
                 throw new Error(`Unhandled action type: ${action.type}`);
         }

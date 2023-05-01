@@ -2,6 +2,7 @@
 import { createTheme } from "@mui/material";
 
 export const theme = createTheme({
+    direction: 'rtl',
     palette: {
         textColor: {
             main: "#82868C",
@@ -9,6 +10,8 @@ export const theme = createTheme({
         titleColor: {
             main: "#3A3C40",
         },
+      
+        
     },
     typography: {
         fontFamily: "Montserrat",
@@ -50,8 +53,6 @@ export const theme = createTheme({
         MuiTablePagination:{
             display: "flex",
             alignItems: "center",
-        },
-        MuiTablePagination:{
             styleOverrides:{
                 displayedRows:{
                     display: "none",
@@ -61,6 +62,7 @@ export const theme = createTheme({
                 }
             },
         },
+        
         MuiPaginationItem:{
             styleOverrides:{
                 icon:{
