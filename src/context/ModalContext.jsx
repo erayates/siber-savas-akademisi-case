@@ -6,6 +6,7 @@ const ModalContextProvider = ({ children }) => {
     const initialState = {
         openUserModal: false,
         openDeleteModal: false,
+        openAlertBox: false,
         selectedUserId: '',
         selectedUser: {}
     }
@@ -20,6 +21,11 @@ const ModalContextProvider = ({ children }) => {
                 return {...state,openUserModal: true}
             case 'CLOSE_USER_MODAL':
                 return {...state,openUserModal: false}
+            case 'OPEN_ALERT_BOX':
+                return {...state,openSuccessAlert: true}
+            case 'CLOSE_SUCCESS_ALERT':
+                return {...state,openSuccessAlert: false}
+
             case 'SET_SELECTED_USER_ID':
                 return {...state,selectedUserId: action.payload}
             case 'SET_SELECTED_USER':

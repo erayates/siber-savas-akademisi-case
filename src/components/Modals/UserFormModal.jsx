@@ -10,6 +10,8 @@ import { styles } from '../CustomStyles';
 
 import { createUser, updateUser } from '../../services/api';
 import { TableContext } from '../../context/TableContext';
+import LoadingModal from './LoadingModal';
+
 
 
 function UserFormModal() {
@@ -21,9 +23,9 @@ function UserFormModal() {
     const {refreshDataTable} = useContext(TableContext)
     const {state,dispatch} = useContext(ModalContext)
     
-  
-
     const [formData,setFormData] = useState({})
+
+    const [loading,setLoading] = useState(false)
 
     useEffect(() => {
         setAvatars(avatarList)
@@ -32,7 +34,6 @@ function UserFormModal() {
 
     useEffect(() => {
         if(state.selectedUser){
-           
             setFormData(state.selectedUser)
             avatars.map((avatar) => {
                 state.selectedUser.avatar === avatar.src && setActiveAvatar(avatar.id)
@@ -57,18 +58,18 @@ function UserFormModal() {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(state.selectedUser){
             if(validateFormData(formData)){
-                updateUser(state.selectedUser.id,formData)
-                setFormData({})
+                await updateUser(state.selectedUser.id,formData)
+                resetAndRefreshTable()
                 dispatch({type: 'CLOSE_USER_MODAL'})
             }
         }else{
             if(validateFormData(formData)){
-                createUser(formData)
-                setFormData({})
+                await createUser(formData)
+                resetAndRefreshTable()
                 dispatch({type: 'CLOSE_USER_MODAL'})
             }
         }
@@ -76,6 +77,11 @@ function UserFormModal() {
 
     const handleChangeInput = (event) => {
         setFormData({...formData,[event.target.name]: event.target.value})
+    }
+
+    const resetAndRefreshTable = () => {
+        setFormData({})
+        refreshDataTable()
     }
 
     const handleActiveAvatar = (avatar) => {
@@ -153,6 +159,7 @@ function UserFormModal() {
                 </form>
             </Box>
         </Box>
+        
     </Modal>
   )
 }

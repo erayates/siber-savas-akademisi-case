@@ -11,10 +11,12 @@ import { styles } from '../CustomStyles';
 
 import {TableContext} from '../../context/TableContext';
 import { deleteSelectedUsers, deleteUser } from '../../services/api';
+import LoadingModal from '../Modals/LoadingModal';
 
 function Search() {
   const [searchTerm,setSearchTerm] = useState('')
   const {tableState,tableDispatch,refreshDataTable} = useContext(TableContext)
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
     tableDispatch({type: 'SET_SEARCH_TERM',payload: searchTerm});
@@ -24,12 +26,12 @@ function Search() {
     setSearchTerm(e.target.value);
   };
 
-  const handleDeleteSelectedUsers = () => {
+  const handleDeleteSelectedUsers = async () => {
     if(tableState.selectedUsers.length > 0){
-      if(deleteSelectedUsers(tableState.selectedUsers)){
-        refreshDataTable()
-      }
-
+      setLoading(true)
+      await deleteSelectedUsers(tableState.selectedUsers)
+      setLoading(false)
+      refreshDataTable()
     } 
   };
   
@@ -48,6 +50,8 @@ function Search() {
             <span className='delete'>Delete</span>
         </Box>
       </Box>
+      {loading && <LoadingModal/>}
+     
       
     </>
   )

@@ -36,18 +36,19 @@ export const updateUser = async (id, payload) => {
 export const deleteUser = async (id) => {
     try{
         await api.delete(`/users/${id}`).then(res => res.data)
+      
     }catch(e){
         console.log(e)
     }
     
 }
 
-export const deleteSelectedUsers = async (ids) => {
+export const deleteSelectedUsers = async (userIds) => {
     try{
-        ids.map(async(id) => {
-            await api.delete(`/users/${id}`).then(res => res.data)
-        })
- 
+        for (let i = 0; i < userIds.length; i++) {
+            await api.delete(`/users/${userIds[i]}`);
+            await new Promise(resolve => setTimeout(resolve, 500)); // 500ms bekle
+        }
     }catch(e){
         console.log(e)
     }

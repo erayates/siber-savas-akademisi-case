@@ -1,8 +1,13 @@
-import { createContext, useEffect, useState, useReducer } from 'react';
+import { createContext, useEffect, useState, useReducer,useContext } from 'react';
 import { getUsers } from '../services/api';
+
+
 
 export const TableContext = createContext();
 const TableContextProvider = ({ children }) => {
+    
+
+
     const initialState = {
         tableData: [],
         filterOption: 'all',
@@ -56,10 +61,8 @@ const TableContextProvider = ({ children }) => {
     }
 
 
-    const refreshDataTable = (id) => {
-        if(id){
-            tableDispatch({type: 'SET_FILTER_OPTION',payload: tableState.tableData.filter((user) => user.id !== id)})
-        }
+    const refreshDataTable = (userId) => {
+        if(userId) tableDispatch({type: 'SET_TABLE_DATA',payload: tableState.tableData.filter((user) => user.id !== userId)})
         else getTableData()
     }
 
