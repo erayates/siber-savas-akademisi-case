@@ -1,5 +1,4 @@
 import User from "../models/Users";
-import { useContext } from "react";
 import { createUser } from "../services/api";
 
 

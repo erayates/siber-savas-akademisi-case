@@ -4,6 +4,8 @@ import { deleteUser } from '../../services/api';
 import { TableContext } from '../../context/TableContext';
 import { ModalContext } from '../../context/ModalContext';
 import { styles } from '../CustomStyles';
+import AlertBox from '../AlertBox';
+import {AlertContext} from '../../context/AlertContext'
 
 
 
@@ -11,17 +13,33 @@ import { styles } from '../CustomStyles';
 
 function DeleteModal() {
   
-    const {refreshDataTable} = useContext(TableContext)
+    const {tableState,refreshDataTable,tableDispatch} = useContext(TableContext)
     const {state,dispatch} = useContext(ModalContext)
+    const {showSuccessAlert,showErrorAlert} = useContext(AlertContext)
     
     const handleDelete = async () => {
         if(state.selectedUserId !== undefined){
-            await deleteUser(state.selectedUserId)
-            refreshDataTable(state.selectedUserId)
-            handleCloseDeleteModal()
+            try{
+                await deleteUser(state.selectedUserId)
+                refreshDataTable(state.selectedUserId)
+                validateSelectedUsers()
+                handleCloseDeleteModal()
+                showSuccessAlert()
+                
+                
+            }catch{
+                showErrorAlert('Something went wrong!')  
+            }
+        
      
         }
     }
+
+    const validateSelectedUsers = () => {
+        const newSelectedUsers = tableState.selectedUsers.filter((user) => {user !== state.selectedUserId});
+        tableDispatch({ type: 'SET_SELECTED_USERS', payload: newSelectedUsers });
+    };
+      
 
     const handleCloseDeleteModal = () => {
         dispatch({type: 'SET_SELECTED_USER_ID',payload: null})
@@ -29,6 +47,7 @@ function DeleteModal() {
     };
 
   return (
+    <>
     <Modal 
         open={state.openDeleteModal}
         onClose={handleCloseDeleteModal}
@@ -41,8 +60,10 @@ function DeleteModal() {
                 <Button variant="outlined" onClick={handleCloseDeleteModal} sx={{marginLeft: '20px'}}>Cancel</Button>
             </Box>
         </Box>
-
+        
     </Modal>  
+    
+    </>
   )
 }
 

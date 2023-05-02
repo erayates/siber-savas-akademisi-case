@@ -18,7 +18,7 @@ const LoadingModal = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        bgcolor: 'rgba(255, 255, 255, 0.8)',
+        bgcolor: 'rgba(255, 255, 255, 0.9)',
         visibility: open ? 'visible' : 'hidden',
       }}
     >

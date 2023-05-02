@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 
 import Header from '../../components/Header/Header'
 import UserList from '../../components/UserList';
+import AlertBox from '../../components/AlertBox';
 
 
 
@@ -18,7 +19,8 @@ function Home() {
                 <Header/>
                 <Search/>
                 <UserList/>
-              
+                <AlertBox/>
+             
             </Box>
         
         </Container>

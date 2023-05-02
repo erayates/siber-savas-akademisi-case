@@ -1,36 +1,60 @@
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import React, { useState, useEffect, useContext } from 'react';
+import { Alert, Box } from '@mui/material';
+import { AlertContext } from '../context/AlertContext';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+const AlertBox = () => {
+  const { alert, hideAlert } = useContext(AlertContext);
+  const [open, setOpen] = useState(false);
 
-export default function AlertBox() {
-  const [open, setOpen] = React.useState(false);
-
- 
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
+  useEffect(() => {
+    if (alert) {
+      setOpen(true);
+      const timer = setTimeout(() => {
+        setOpen(false);
+        hideAlert();
+      }, 3000);
+      return () => clearTimeout(timer);
     }
-
-    setOpen(false);
-  };
+  }, [alert, hideAlert]);
 
   return (
-    <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          This is a success message!
-        </Alert>
-      </Snackbar>
-      <Alert severity="error">This is an error message!</Alert>
-      <Alert severity="warning">This is a warning message!</Alert>
-      <Alert severity="success">This is a success message!</Alert>
-    </Stack>
+    <>
+      {open & alert.type === 'success' && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '500px',
+            textAlign: 'center',
+            zIndex: '9999',
+          }}
+        >
+          <Alert severity={alert.type} onClose={() => setOpen(false)} sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            Success! Your operation was completed successfully.
+          </Alert>
+        </Box>
+      )}
+       {open & alert.type === 'error' && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '500px',
+            textAlign: 'center',
+            zIndex: '9999',
+          }}
+        >
+          <Alert severity={alert.type} onClose={() => setOpen(false)} sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            ERROR! {alert.message}
+          </Alert>
+        </Box>
+      )}
+    </>
   );
-}
+};
+
+export default AlertBox;

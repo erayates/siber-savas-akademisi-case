@@ -10,7 +10,8 @@ import { styles } from '../CustomStyles';
 
 import { createUser, updateUser } from '../../services/api';
 import { TableContext } from '../../context/TableContext';
-import LoadingModal from './LoadingModal';
+import { AlertContext } from '../../context/AlertContext';
+import AlertBox from '../AlertBox';
 
 
 
@@ -22,10 +23,9 @@ function UserFormModal() {
 
     const {refreshDataTable} = useContext(TableContext)
     const {state,dispatch} = useContext(ModalContext)
+    const {showSuccessAlert,showErrorAlert} = useContext(AlertContext)
     
     const [formData,setFormData] = useState({})
-
-    const [loading,setLoading] = useState(false)
 
     useEffect(() => {
         setAvatars(avatarList)
@@ -62,15 +62,26 @@ function UserFormModal() {
         e.preventDefault();
         if(state.selectedUser){
             if(validateFormData(formData)){
-                await updateUser(state.selectedUser.id,formData)
-                resetAndRefreshTable()
-                dispatch({type: 'CLOSE_USER_MODAL'})
+                try{
+                    await updateUser(state.selectedUser.id,formData)
+                    resetAndRefreshTable()
+                    dispatch({type: 'CLOSE_USER_MODAL'})
+                    showSuccessAlert()
+                }catch{
+                    showErrorAlert('Something went wrong!')
+                }
             }
         }else{
             if(validateFormData(formData)){
-                await createUser(formData)
-                resetAndRefreshTable()
-                dispatch({type: 'CLOSE_USER_MODAL'})
+                try{
+                    await createUser(formData)
+                    resetAndRefreshTable()
+                    dispatch({type: 'CLOSE_USER_MODAL'})
+                    showSuccessAlert()
+                }catch{
+                    showErrorAlert('Something went wrong!')
+                }
+              
             }
         }
     }
@@ -98,6 +109,7 @@ function UserFormModal() {
 
     
   return (
+    <>
     <Modal open={state.openUserModal} onClose={handleClose}>
         <Box sx={styles.userFormBoxStyle}>
             <Box sx={styles.userFormInnerBoxStyle}>
@@ -161,6 +173,8 @@ function UserFormModal() {
         </Box>
         
     </Modal>
+   
+    </>
   )
 }
 
