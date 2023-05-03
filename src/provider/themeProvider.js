@@ -4,23 +4,14 @@ import { createTheme } from "@mui/material";
 export const theme = createTheme({
     direction: 'rtl',
     palette: {
-        textColor: {
-            main: "#82868C",
+        primary:{
+            main: "#2940D3",
         },
-        titleColor: {
-            main: "#3A3C40",
-        },
+    
       
         
     },
-    typography: {
-        fontFamily: "Montserrat",
-        fontSize: 13,
-        fontWeightLight: 300,
-        fontWeightRegular: 400,
-        fontWeightMedium: 500,
-        fontWeightBold: 600,
-    },
+   
     components: {
         MuiButton: {
             styleOverrides: {
@@ -33,12 +24,18 @@ export const theme = createTheme({
                 },
             },
         },
+       
+  
+
         MuiTableCell: {
             styleOverrides: {
                 root: {
                     fontSize: 13,
                     fontFamily: "Montserrat",
                     fontWeight: 500,
+                    padding: '24px 0'
+                    
+                    
                 },
             },
         },         
@@ -46,7 +43,8 @@ export const theme = createTheme({
             styleOverrides:{
                 root: {
                     backgroundColor: "#F5F6F8",
-                    fontWeight: 600
+                    fontWeight: 600,
+                    
                 },
             },
         },
@@ -105,11 +103,9 @@ export const theme = createTheme({
         MuiSvgIcon:{
             styleOverrides:{
                 root:{
-                    color: '#82868C',
-                    width: '30px',
-                    height: '30px',
+   
                     marginRight: '10px',
-              
+                    
                 },
             },
         },
@@ -148,7 +144,8 @@ export const theme = createTheme({
             styleOverrides: {
               root: {
                 padding: "0",
-                height: "40px",
+               
+
                 fontFamily: "Montserrat",
                 fontSize: "13px",
                 fontWeight: "500",
@@ -158,9 +155,11 @@ export const theme = createTheme({
                 
               },
              
-              icon: {
-                top: "4px",
-              },
+              select:{
+                display:'flex',
+                justifyContent:'space-between',
+                alignItems:'center'
+              }
             },
           },
           MuiMenu:{
@@ -191,7 +190,27 @@ export const theme = createTheme({
                     }
                 }
             },
-          
+
+            MuiCheckbox:{
+                styleOverrides:{
+       
+                    root:{
+                        '&.Mui-checked':{
+                            color:'#2940D3',
+                        },
+                        '&:hover':{
+                            backgroundColor: 'transparent',
+                        },
+                      
+                                        
+                    },
+           
+                    
+                  
+
+        }},
+    
+   
 
 
         

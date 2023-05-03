@@ -1,49 +1,45 @@
-import {useContext} from 'react';
+import { useContext } from "react";
 
-import Text from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import { Box, Divider } from "@mui/material";
+import Text from "@mui/material/Typography";
 
-import Navigation from './Navigation/Navigation';
+import FilterTabs from "./FilterTabs";
 
+import { ModalContext } from "../../context/ModalContext";
 
-import { ModalContext } from '../../context/ModalContext';
+import { styles } from "../CustomStyles";
+import CustomButton from "../CustomButton";
 
-import { styles } from '../CustomStyles';
+import UsersIcon from "../Icons/UsersIcon";
+import PlusIcon from "../Icons/PlusIcon";
 
-import CustomButton from '../CustomButton';
-
-import UsersIcon from '../Icons/UsersIcon';
-import PlusIcon from '../Icons/PlusIcon';
-import UserFormModal from '../Modals/UserFormModal';
-
-
+import UserFormModal from "../Modals/UserFormModal";
 
 export default function Header() {
-    const {dispatch} = useContext(ModalContext)
+  const { modalDispatch } = useContext(ModalContext);
 
-    const handleOpen = () => {
-        dispatch({type: 'OPEN_USER_MODAL'})
-        dispatch({type: 'SET_SELECTED_USER',payload: null})
-    };
+  const handleOpen = () => {
+    modalDispatch({ type: "OPEN_USER_MODAL" });
+    modalDispatch({ type: "SET_SELECTED_USER", payload: null });
+  };
 
   return (
-    <header>
-        <Box sx={styles.headerCompBoxStyle}>
-            <Box sx={styles.headerCompInnerBoxStyle}>
-                <Box sx={styles.headerCompIconBoxStyle}>
-                    <UsersIcon/>
-                </Box>
-                <Text sx={styles.headerCompIconTextStyle}>Users
-                </Text>
-            </Box>
-        <Navigation/>
+    <>
+      <Box sx={styles.headerCompBoxStyle}>
+        <Box sx={styles.headerCompInnerBoxStyle}>
+          <Box sx={styles.headerCompIconBoxStyle}>
+            <UsersIcon />
+          </Box>
+          <Text sx={styles.headerCompIconTextStyle}>Users</Text>
+        </Box>
+        <FilterTabs />
         <CustomButton onClick={handleOpen}>
-            <PlusIcon/>
-            Add New User
+          <PlusIcon />
+          Add New User
         </CustomButton>
         <UserFormModal />
-    </Box>
-        
-    </header>
+      </Box>
+      <Divider sx={styles.dividerStyle} />
+    </>
   );
 }

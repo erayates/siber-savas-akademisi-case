@@ -1,50 +1,41 @@
-import { createContext, useEffect, useState,useReducer } from 'react';
-
+import { createContext,useReducer } from "react";
 
 export const ModalContext = createContext();
 const ModalContextProvider = ({ children }) => {
-    const initialState = {
-        openUserModal: false,
-        openDeleteModal: false,
-        openAlertBox: false,
-        selectedUserId: '',
-        selectedUser: {}
+  const initialState = {
+    openUserModal: false,
+    openDeleteModal: false,
+    openAlertBox: false,
+    selectedUserId: "",
+    selectedUser: null,
+  };
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "OPEN_DELETE_MODAL":
+        return { ...state, openDeleteModal: true };
+      case "CLOSE_DELETE_MODAL":
+        return { ...state, openDeleteModal: false };
+      case "OPEN_USER_MODAL":
+        return { ...state, openUserModal: true };
+      case "CLOSE_USER_MODAL":
+        return { ...state, openUserModal: false };
+      case "SET_SELECTED_USER_ID":
+        return { ...state, selectedUserId: action.payload };
+      case "SET_SELECTED_USER":
+        return { ...state, selectedUser: action.payload };
+      default:
+        throw new Error(`Unhandled action type: ${action.type}`);
     }
+  };
 
-    const reducer = (state,action) => {
-        switch(action.type){
-            case 'OPEN_DELETE_MODAL':
-                return {...state,openDeleteModal: true}
-            case 'CLOSE_DELETE_MODAL':
-                return {...state,openDeleteModal: false}
-            case 'OPEN_USER_MODAL':
-                return {...state,openUserModal: true}
-            case 'CLOSE_USER_MODAL':
-                return {...state,openUserModal: false}
-            case 'OPEN_ALERT_BOX':
-                return {...state,openSuccessAlert: true}
-            case 'CLOSE_SUCCESS_ALERT':
-                return {...state,openSuccessAlert: false}
+  const [modalState, modalDispatch] = useReducer(reducer, initialState);
 
-            case 'SET_SELECTED_USER_ID':
-                return {...state,selectedUserId: action.payload}
-            case 'SET_SELECTED_USER':
-                return {...state,selectedUser: action.payload}
+  return (
+    <ModalContext.Provider value={{ modalState, modalDispatch }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};
 
-            default:
-                throw new Error(`Unhandled action type: ${action.type}`);
-        }
-    }
-
-    const [state, dispatch] = useReducer(reducer, initialState)
-    
-    
-    return(
-        <ModalContext.Provider value={{ state,dispatch }}>
-            {children}
-        </ModalContext.Provider>
-        
-    )
-}
-
-export default  ModalContextProvider;
+export default ModalContextProvider;

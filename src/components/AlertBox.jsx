@@ -8,6 +8,8 @@ const AlertBox = () => {
 
   useEffect(() => {
     if (alert) {
+
+
       setOpen(true);
       const timer = setTimeout(() => {
         setOpen(false);
@@ -15,11 +17,11 @@ const AlertBox = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [alert, hideAlert]);
-
+  }, [alert,hideAlert]);
+  
   return (
     <>
-      {open & alert.type === 'success' && (
+      {open && (
         <Box
           sx={{
             position: 'fixed',
@@ -28,28 +30,16 @@ const AlertBox = () => {
             transform: 'translateX(-50%)',
             width: '500px',
             textAlign: 'center',
-            zIndex: '9999',
-          }}
-        >
-          <Alert severity={alert.type} onClose={() => setOpen(false)} sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-            Success! Your operation was completed successfully.
-          </Alert>
-        </Box>
-      )}
-       {open & alert.type === 'error' && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '500px',
-            textAlign: 'center',
-            zIndex: '9999',
-          }}
-        >
-          <Alert severity={alert.type} onClose={() => setOpen(false)} sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-            ERROR! {alert.message}
+            zIndex: '9999', }} >
+        
+
+          <Alert
+            severity='success'
+            onClose={() => setOpen(false)}
+            sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
+          >
+            {alert.message}
+           
           </Alert>
         </Box>
       )}

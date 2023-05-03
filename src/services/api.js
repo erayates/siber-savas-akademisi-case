@@ -5,13 +5,13 @@ const api = axios.create({
 })
 
 export const getUsers = async () => {
-    try{
+    try {
         const data = await api.get(`/users`);
         return data
-    }catch(e){
+    } catch (e) {
         console.log(e)
     }
-    
+
 }
 
 export const getUserById = async (id) => {
@@ -19,14 +19,14 @@ export const getUserById = async (id) => {
 }
 
 export const createUser = async (payload) => {
-    const newUser = {...payload}
-    try{
+    const newUser = { ...payload }
+    try {
         await api.post(`/users`, newUser).then(res => res.data)
-            
-    }catch(e){
+
+    } catch (e) {
         console.log(e)
     }
-    
+
 }
 
 export const updateUser = async (id, payload) => {
@@ -34,23 +34,23 @@ export const updateUser = async (id, payload) => {
 }
 
 export const deleteUser = async (id) => {
-    try{
+    try {
         await api.delete(`/users/${id}`).then(res => res.data)
-      
-    }catch(e){
+
+    } catch (e) {
         console.log(e)
     }
-    
+
 }
 
 export const deleteSelectedUsers = async (userIds) => {
-    try{
+    try {
         for (let i = 0; i < userIds.length; i++) {
             await api.delete(`/users/${userIds[i]}`);
             await new Promise(resolve => setTimeout(resolve, 500)); // 500ms bekle
         }
-    }catch(e){
+    } catch (e) {
         console.log(e)
     }
-    
+
 }

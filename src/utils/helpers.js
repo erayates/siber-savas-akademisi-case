@@ -13,7 +13,6 @@ export const createNewUser = ({name,username,email,role,avatar}) => {
 
 }
 
-
 export const isEmail = (email) => {
     const regEx = /\S+@\S+\.\S+/;
     return regEx.test(email)
@@ -21,7 +20,7 @@ export const isEmail = (email) => {
 
 export const validateFormData = (data) => {
     const {name,username,email,role,avatar} = data;
-    console.log(name)
+    console.log(data)
     if(name === undefined || username === undefined || email === undefined || role === undefined || avatar === undefined) {
         return false
     }

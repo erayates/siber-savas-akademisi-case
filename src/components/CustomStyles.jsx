@@ -47,14 +47,21 @@ export const styles = {
         boxShadow: 24,
         borderRadius: '8px',
         p: 4,
-     
-      
+
+    },
+    deleteModalTextStyle: {
+        fontFamily: 'Montserrat',
+        fontWeight: '600',
+        lineHeight: '15px',
+        fontSize: '13px',
+        color: '#82868C'
     },
 
     headerCompBoxStyle: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        margin: '0 18px',
     },
     
     headerCompInnerBoxStyle: {
@@ -83,7 +90,7 @@ export const styles = {
 
     searchCompBoxStyle:{
         display: 'flex',
-        margin: '35px 0',
+        margin: '35px 18px',
         justifyContent: 'space-between'
     },
 
@@ -94,7 +101,8 @@ export const styles = {
     searchCompDeleteBoxStyle:{
         display: 'flex',
         alignItems: 'center',
-        cursor:'pointer'
+        cursor:'pointer',
+        marginRight: '10px'
     },
 
     searchCompSearchIconStyle: {
@@ -111,8 +119,39 @@ export const styles = {
         height: '30px',
         marginRight: '10px',
        
-    }
+    },
+    dividerStyle:{
+        borderWidth: '2px', 
+        position:'relative', 
+        top: '-2px',
+        zIndex:'0'
+    },
+
+    loadingModalBoxStyle:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'fixed',
+        zIndex: 1000,
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        bgcolor: 'rgba(255, 255, 255, 0.9)',
+    },
+
     
+    tableCellStyle:{
+        fontWeight: "600",
+        padding: "0" 
+    },
+
+    tableCellIconStyle:{
+        cursor: "pointer",
+        color: "#82868C",
+        fontSize: "30px",
+    }
 
 
     

@@ -17,10 +17,7 @@
     color: #82868C;
 }
 
-.delete-confirm{
-    font-family: 'Montserrat' !important;
-    font-weight: 600 !important;
-    line-height: 15px !important;
-    font-size: 13px !important;
-    color: #82868C;
+
+.MuiOutlinedInput-notchedOutline{
+    border: 2px solid #E3E6EB !important; 
 }

@@ -13,18 +13,15 @@ function Home() {
   
   return (
     <React.Fragment>
-      
-        <Container maxWidth="lg">
-            <Box sx={{ bgcolor: 'white', height: '100vh' }}>
-                <Header/>
-                <Search/>
-                <UserList/>
-                <AlertBox/>
-             
-            </Box>
-        
-        </Container>
-    </React.Fragment>
+    <Container maxWidth="lg">
+      <Box sx={{ bgcolor: 'white', height: '100vh' }}>
+        <Header />
+        <Search />
+        <UserList />
+        <AlertBox />
+      </Box>
+    </Container>
+  </React.Fragment>
   )
 }
 
