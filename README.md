@@ -26,6 +26,7 @@ https://siber-savas-akademisi-case.vercel.app/
 ![Uygulama Ekran Görüntüsü](https://i.hizliresim.com/nlblx98.png)
 ![Uygulama Ekran Görüntüsü](https://i.hizliresim.com/i7u3r8l.png)
 ![Uygulama Ekran Görüntüsü](https://i.hizliresim.com/sv1k8b3.png)
+![Uygulama Ekran Görüntüsü](https://i.hizliresim.com/7k34qua.png)
 
   
   
