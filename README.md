@@ -120,6 +120,17 @@ Sunucuyu çalıştırın
 ```
 
 
+## Katkıda Bulunma
+
+    1. Bu depoyu çatallayın.
+    2. Yeni bir dal oluşturun. (git checkout -b feature/fooBar)
+    3. Değişikliklerinizi yapın ve bunları adlandırın.
+    4. Değişikliklerinizi kaydedin. (git commit -am 'Add some fooBar')
+    5. Dalınıza itin. (git push origin feature/fooBar)
+    6. Bir birleştirme isteği oluşturun.
+
+  
+
 
 
 
