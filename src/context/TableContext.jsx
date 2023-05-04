@@ -42,10 +42,10 @@ const TableContextProvider = ({ children }) => {
     const { searchTerm, filterOption, tableData } = tableState;
     return tableData.filter((user) =>
       filterOption === "all"
-        ? user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ? user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
         : user.role === filterOption &&
-        (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
           user.email.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   };

@@ -8,7 +8,8 @@ import {
   Stack,
   Avatar,
   Modal,
-  Alert
+  Alert,
+  CircularProgress
 } from "@mui/material";
 
 import Text from "@mui/material/Typography";
@@ -37,9 +38,12 @@ function reducer(state, action) {
     case "RESET":
       return { ...state, formData: {}, activeAvatar: "", role: "Role" };
     case "SET_FORM_ERROR":
-      return {...state, formError: action.payload}
+      return { ...state, formError: action.payload }
+    case "SET_BUTTON_DISABLED":
+      return { ...state, buttonDisabled: action.payload }
     case "RESET":
       return { ...state, formData: {}, activeAvatar: "", role: "Role" };
+
     default:
       return state;
   }
@@ -51,7 +55,8 @@ function UserFormModal() {
     activeAvatar: "",
     role: "Role",
     formData: {},
-    formError: false
+    formError: false,
+    buttonDisabled: false
   };
 
   const [state, dispatch] = useReducer(reducer, initalState);
@@ -82,8 +87,9 @@ function UserFormModal() {
   const handleClose = () => {
     modalDispatch({ type: "CLOSE_USER_MODAL" });
     modalDispatch({ type: "SET_SELECTED_USER", payload: "" });
-    dispatch({type: "SET_FORM_ERROR", payload: false})
+    dispatch({ type: "SET_FORM_ERROR", payload: false })
     dispatch({ type: "RESET" })
+
   };
 
   const handleChangeRole = (event) => {
@@ -98,17 +104,22 @@ function UserFormModal() {
     e.preventDefault();
 
     if (!validateFormData(state.formData)) {
-      dispatch({type: "SET_FORM_ERROR", payload: true})
+      dispatch({ type: "SET_FORM_ERROR", payload: true })
       return;
     }
 
     if (modalState.selectedUser) {
+      dispatch({ type: "SET_BUTTON_DISABLED", payload: true })
       const response = await updateUser(modalState.selectedUser.id, state.formData);
+      dispatch({ type: "SET_BUTTON_DISABLED", payload: false })
       response ? showAlertBox('success', `Success! User was updated successfully.`) : showAlertBox('error', `Error! User was not updated.`);
+
     } else {
+      dispatch({ type: "SET_BUTTON_DISABLED", payload: true })
       const response = await createUser(state.formData);
+      dispatch({ type: "SET_BUTTON_DISABLED", payload: false })
       response.data ? showAlertBox('success', `Success! User was created successfully.`) : showAlertBox('error', `Error! User was not created.`);
-      
+
     }
 
     resetAndRefreshTable();
@@ -140,7 +151,7 @@ function UserFormModal() {
   };
 
   const handleFormError = () => {
-    dispatch({type: "SET_FORM_ERROR", payload: false})
+    dispatch({ type: "SET_FORM_ERROR", payload: false })
   }
 
   return (
@@ -149,8 +160,8 @@ function UserFormModal() {
         <Box sx={styles.userFormBoxStyle}>
           <Box sx={styles.userFormInnerBoxStyle}>
             <form onSubmit={handleSubmit} method="POST" autoComplete="false">
-              {state.formError && <Alert severity="error" sx={{marginBottom: '30px'}} onClose={() => handleFormError()}>Please fill the all fields.</Alert>}
-              <FormControl sx={{ width: "100%",}}>
+              {state.formError && <Alert severity="error" sx={{ marginBottom: '30px' }} onClose={() => handleFormError()}>Please fill the all fields.</Alert>}
+              <FormControl sx={{ width: "100%", }}>
                 <Input
                   name="name"
                   placeholder="Full Name"
@@ -225,9 +236,14 @@ function UserFormModal() {
               </Box>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 {modalState.selectedUser ? (
-                  <CustomButton type="submit">Edit User</CustomButton>
+                  state.buttonDisabled ?
+                    <CircularProgress sx={{ color: '#2940D3', marginTop: '10px' }}
+                    /> : <CustomButton type="submit" >Edit User</CustomButton>
                 ) : (
-                  <CustomButton type="submit">Create User</CustomButton>
+                  state.buttonDisabled ?
+                    <CircularProgress sx={{ color: '#2940D3', marginTop: '10px' }} />
+                    :
+                    <CustomButton type="submit">Create User</CustomButton>
                 )}
               </Box>
             </form>

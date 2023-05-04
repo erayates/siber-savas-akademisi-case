@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
-import { Modal, Button, Box } from "@mui/material";
+import { Modal, Button, Box, CircularProgress } from "@mui/material";
 import Text from "@mui/material/Typography";
 
 import { deleteUser } from "../../services/api";
@@ -12,18 +12,21 @@ import { AlertContext } from "../../context/AlertContext";
 import { styles } from "../CustomStyles";
 
 function DeleteModal() {
-  const { tableState, refreshDataTable, tableDispatch } =
-    useContext(TableContext);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  const { tableState, refreshDataTable, tableDispatch } = useContext(TableContext);
   const { modalState, modalDispatch } = useContext(ModalContext);
   const { showAlertBox } = useContext(AlertContext);
 
   const handleDelete = async () => {
     if (modalState.selectedUserId) {
+      setButtonDisabled(true);
       const response = await deleteUser(modalState.selectedUserId);
+      setButtonDisabled(false);
       refreshDataTable(modalState.selectedUserId);
       validateSelectedUsers();
       handleCloseDeleteModal();
-      response ? showAlertBox("success","Success! User was deleted successfully!") : showAlertBox("error","Error! User was not deleted successfully!")
+      response ? showAlertBox("success", "Success! User was deleted successfully!") : showAlertBox("error", "Error! User was not deleted successfully!")
     }
   };
 
@@ -48,16 +51,24 @@ function DeleteModal() {
             Are you sure want to delete this user?
           </Text>
           <Box sx={{ marginTop: "30px" }}>
-            <Button color="error" variant="contained" onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleCloseDeleteModal}
-              sx={{ marginLeft: "20px"}}
-            >
-              Cancel
-            </Button>
+            {buttonDisabled ? (
+              <CircularProgress sx={{color: "#2940D3"}} />
+            ) : (
+              <>
+                <Button color="error" variant="contained" onClick={handleDelete}>
+                  Delete
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleCloseDeleteModal}
+                  sx={{ marginLeft: "20px" }}
+                >
+                  Cancel
+                </Button>
+              </>
+            )
+            }
+
           </Box>
         </Box>
       </Modal>

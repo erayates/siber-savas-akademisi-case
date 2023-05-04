@@ -9,7 +9,7 @@ export const getUsers = async () => {
         const response = await api.get(`/users`);
         return response
     } catch (e) {
-        console.log(e)
+        return false
     }
 
 }
@@ -22,7 +22,6 @@ export const createUser = async (payload) => {
         return response
 
     } catch (e) {
-        console.log(e)
         return false
     }
 
