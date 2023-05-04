@@ -128,7 +128,7 @@ export const theme = createTheme({
                     lineHeight: '16px',
                     fontWeight: '500',
                     border: '2px solid #E3E6EB',
-                    padding: '8px 16px',
+                   
                     outline: 'none',
                     borderRadius: '8px',
                     color: '#82868C',
@@ -141,6 +141,8 @@ export const theme = createTheme({
 
                 },
                 input: {
+                    padding: '0 16px',
+                    height: '100%',
                     '&::placeholder': {
                         color: '#82868C',
                         opacity: '1'

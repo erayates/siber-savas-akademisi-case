@@ -1,46 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap');
-  /* Firefox */
-  * {
+
+/* Firefox */
+* {
     scrollbar-width: auto;
     scrollbar-color: #2940d3 #ffffff;
-  }
+}
 
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
     width: 12px;
-  }
+}
 
-  *::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
     background: #ffffff;
-  }
+}
 
-  *::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background-color: #2940d3;
     border-radius: 10px;
     border: 3px solid #ffffff;
-  }
-
-
-.delete{
-    font-family: 'Montserrat' !important;
-    font-weight: 600 !important;
-    line-height: 15px !important;
-    font-size: 13px !important;
-    color: #82868C;
 }
 
-
-.select-avatar{
-    line-height: 15px !important;
-    font-size: 13px !important;
-    font-family: 'Montserrat' !important;
-    font-weight: 500 !important;
-    color: #82868C;
+.MuiOutlinedInput-notchedOutline {
+    border: 2px solid #E3E6EB !important;
 }
-
-
-.MuiOutlinedInput-notchedOutline{
-    border: 2px solid #E3E6EB !important; 
-}
-
-

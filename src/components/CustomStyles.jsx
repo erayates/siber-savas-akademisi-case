@@ -30,9 +30,19 @@ export const styles = {
         boxShadow: '0 0 3px 1px rgba(0,0,0,0.1)', 
         cursor:'pointer'
     },
+
+    userFormAvatarTextStyle: {
+        fontFamily: 'Montserrat',
+        fontWeight: '600',
+        lineHeight: '15px',
+        fontSize: '13px',
+        color: '#82868C'
+    },
+
     userFormAvatarActiveStyle: {
         boxShadow: '0 0px 10px 1px rgba(41, 64, 211, 0.8)'
     },
+
     deleteModalBoxStyle: {
         position: 'absolute',
         top: '50%',
@@ -49,6 +59,7 @@ export const styles = {
         p: 4,
 
     },
+
     deleteModalTextStyle: {
         fontFamily: 'Montserrat',
         fontWeight: '600',
@@ -98,24 +109,25 @@ export const styles = {
         marginLeft: '12px',              
     },
 
-    searchCompBoxStyle:{
+    toolbarCompBoxStyle:{
         display: 'flex',
         margin: '35px 18px',
         justifyContent: 'space-between'
     },
 
-    searchCompInnerBoxStyle:{
+    toolbarCompInnerBoxStyle:{
         display: 'flex',
         alignItems: 'center',
     },
-    searchCompDeleteBoxStyle:{
+
+    toolbarCompDeleteBoxStyle:{
         display: 'flex',
         alignItems: 'center',
         cursor:'pointer',
         marginRight: '10px'
     },
 
-    searchCompSearchIconStyle: {
+    toolbarCompSearchIconStyle: {
         color: '#82868C',
         width: '30px',
         height: '30px',
@@ -123,13 +135,22 @@ export const styles = {
           
     },
 
-    searchCompDeleteIconStyle:{
+    toolbarCompDeleteTextStyle: {
+        fontFamily: "Montserrat",
+        fontWeight: "600",
+        lineHeight: "15px",
+        fontSize: "13px",
+        color: "#82868C"
+    },
+
+    toolbarCompDeleteIconStyle:{
         color: '#82868C',
         width: '30px',
         height: '30px',
         marginRight: '10px',
        
     },
+
     dividerStyle:{
         borderWidth: '2px', 
         position:'relative', 
@@ -156,13 +177,11 @@ export const styles = {
         overflowY: 'hidden',
     },
 
-    
     tableCellStyle:{
         fontWeight: "600",
         padding: "0" ,
         
     },
-
 
     tableCellIconStyle:{
         cursor: "pointer",

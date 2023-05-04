@@ -11,6 +11,8 @@ import {
   Alert
 } from "@mui/material";
 
+import Text from "@mui/material/Typography";
+
 import { avatarList } from "../../utils/avatars";
 import CustomButton from "../CustomButton";
 import { capitalizeFirstLetter, validateFormData } from "../../utils/helpers";
@@ -195,7 +197,7 @@ function UserFormModal() {
               </FormControl>
 
               <Box sx={styles.userFormInputStyle}>
-                <span className="select-avatar">Select Avatar:</span>
+                <Text sx={styles.userFormAvatarTextStyle}>Select Avatar</Text>
                 <Stack direction="row" spacing={1.5} sx={{ marginTop: "16px" }}>
                   {state.avatars.map((avatar) => {
                     return (

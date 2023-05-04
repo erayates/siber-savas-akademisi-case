@@ -5,6 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
+import Text from "@mui/material/Typography";
 
 import { TableContext } from "../../context/TableContext";
 import { AlertContext } from '../../context/AlertContext';
@@ -45,9 +46,9 @@ function Toolbar() {
 
   return (
     <>
-      <Box sx={styles.searchCompBoxStyle}>
-        <Box sx={styles.searchCompInnerBoxStyle}>
-          <SearchIcon sx={styles.searchCompSearchIconStyle} />
+      <Box sx={styles.toolbarCompBoxStyle}>
+        <Box sx={styles.toolbarCompInnerBoxStyle}>
+          <SearchIcon sx={styles.toolbarCompSearchIconStyle} />
           <FormControl variant="standard">
             <Input
               placeholder="Search"
@@ -57,11 +58,11 @@ function Toolbar() {
           </FormControl>
         </Box>
         <Box
-          sx={styles.searchCompDeleteBoxStyle}
+          sx={styles.toolbarCompDeleteBoxStyle}
           onClick={handleDeleteSelectedUsers}
         >
-          <DeleteIcon sx={styles.searchCompDeleteIconStyle} />
-          <span className="delete">Delete</span>
+          <DeleteIcon sx={styles.toolbarCompDeleteIconStyle} />
+          <Text sx={styles.toolbarCompDeleteTextStyle}>Delete</Text>
         </Box>
       </Box>
       {loading && <LoadingModal />}

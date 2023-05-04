@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Container,Table,TableCell,TableContainer,TableHead,TableRow,TableBody,Avatar,TableFooter,TablePagination,Pagination,Stack,Checkbox,Box,Paper} from "@mui/material";
+import { Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Avatar, TableFooter, TablePagination, Pagination, Stack, Checkbox } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -42,7 +42,6 @@ function DataTable() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    
   };
 
   const handleChangePage = (event, newPage) => {
@@ -82,80 +81,80 @@ function DataTable() {
 
   return (
     <>
-        <TableContainer sx={styles.tableResponsiveStyle} >
-          <Table style={{minWidth: '1000px'}}>
-            <TableHead height={"50px"}>
-              <TableRow>
-                <TableCell sx={{ padding: "0" }} width={"8%"}>
-                  <Checkbox
-                    checked={tableState.selectedUsers.length === users.length}
-                    onChange={handleAllUsers}
-                    indeterminate={
-                      tableState.selectedUsers.length > 0 &&
-                      tableState.selectedUsers.length < users.length
-                    }
-                    style={styles.headerCompInnerBoxStyle}
-                  />
-                </TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"8%"}>Avatar</TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"18%"}>Name</TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"19%"}>Username</TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"25%"}>Email</TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"13%"}>Role</TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"9%"}>Edit</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(rowsPerPage > 0
-                ? users.slice(
-                    (page - 1) * rowsPerPage,
-                    (page - 1) * rowsPerPage + rowsPerPage
-                  )
-                : users
-              ).map((user) => {
-                return (
-                  <TableRow key={user.id}>
-                    <TableCell sx={{ padding: "0" }} align="center">
-                      <Checkbox 
-                        onChange={(e) => handleChange(e, user.id)}
-                        checked={isSelected(user.id)}/>
-                    </TableCell>
-                    <TableCell>
-                      <Avatar 
-                        alt="User Avatar" src={user.avatar} 
-                        sx={{ borderRadius: "4px" }}/>
-                    </TableCell>
-                    <TableCell style={styles.tableCellStyle}>{user.name}</TableCell>
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{capitalizeFirstLetter(user.role)}</TableCell>
-                    <TableCell>
-                      <EditIcon
-                        sx={styles.tableCellIconStyle}
-                        onClick={() => handleOpenUserModal(user)}
-                      />
-                      <DeleteIcon
-                        sx={styles.tableCellIconStyle}
-                        onClick={() => handleOpenDeleteModal(user.id)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-              {users.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={7} align="center">
-                    No users found.
+      <TableContainer sx={styles.tableResponsiveStyle} >
+        <Table style={{ minWidth: '1000px' }}>
+          <TableHead height={"50px"}>
+            <TableRow>
+              <TableCell sx={{ padding: "0" }} width={"8%"}>
+                <Checkbox
+                  checked={tableState.selectedUsers.length === users.length}
+                  onChange={handleAllUsers}
+                  indeterminate={
+                    tableState.selectedUsers.length > 0 &&
+                    tableState.selectedUsers.length < users.length
+                  }
+                  style={styles.headerCompInnerBoxStyle}
+                />
+              </TableCell>
+              <TableCell sx={styles.tableCellStyle} width={"8%"}>Avatar</TableCell>
+              <TableCell sx={styles.tableCellStyle} width={"18%"}>Name</TableCell>
+              <TableCell sx={styles.tableCellStyle} width={"19%"}>Username</TableCell>
+              <TableCell sx={styles.tableCellStyle} width={"25%"}>Email</TableCell>
+              <TableCell sx={styles.tableCellStyle} width={"13%"}>Role</TableCell>
+              <TableCell sx={styles.tableCellStyle} width={"9%"}>Edit</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? users.slice(
+                (page - 1) * rowsPerPage,
+                (page - 1) * rowsPerPage + rowsPerPage
+              )
+              : users
+            ).map((user) => {
+              return (
+                <TableRow key={user.id}>
+                  <TableCell sx={{ padding: "0" }} align="center">
+                    <Checkbox
+                      onChange={(e) => handleChange(e, user.id)}
+                      checked={isSelected(user.id)} />
+                  </TableCell>
+                  <TableCell>
+                    <Avatar
+                      alt="User Avatar" src={user.avatar}
+                      sx={{ borderRadius: "4px" }} />
+                  </TableCell>
+                  <TableCell style={styles.tableCellStyle}>{user.name}</TableCell>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{capitalizeFirstLetter(user.role)}</TableCell>
+                  <TableCell>
+                    <EditIcon
+                      sx={styles.tableCellIconStyle}
+                      onClick={() => handleOpenUserModal(user)}
+                    />
+                    <DeleteIcon
+                      sx={styles.tableCellIconStyle}
+                      onClick={() => handleOpenDeleteModal(user.id)}
+                    />
                   </TableCell>
                 </TableRow>
-              )}
+              );
+            })}
+            {users.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  No users found.
+                </TableCell>
+              </TableRow>
+            )}
 
-              <DeleteModal />
-              <UserFormModal />
-            </TableBody>
-            <TableFooter>
-              <TableRow >
-                {users.length > 0 && (
+            <DeleteModal />
+            <UserFormModal />
+          </TableBody>
+          <TableFooter>
+            <TableRow >
+              {users.length > 0 && (
                 <TablePagination
                   count={Math.ceil(users.length / rowsPerPage)}
                   page={page}
@@ -173,12 +172,12 @@ function DataTable() {
                     </Stack>
                   )}
                 />)}
-              </TableRow>
-            </TableFooter>
-          </Table>
-  
-        </TableContainer>
-    
+            </TableRow>
+          </TableFooter>
+        </Table>
+
+      </TableContainer>
+
     </>
   );
 }
