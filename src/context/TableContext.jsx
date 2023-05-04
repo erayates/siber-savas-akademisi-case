@@ -1,7 +1,9 @@
 import { createContext, useEffect, useReducer } from "react";
+
 import { getUsers } from "../services/api";
 
 export const TableContext = createContext();
+
 const TableContextProvider = ({ children }) => {
   const initialState = {
     tableData: [],
@@ -29,9 +31,7 @@ const TableContextProvider = ({ children }) => {
 
   const getTableData = async () => {
     const response = await getUsers();
-    if (response.data.length > 0) {
-      tableDispatch({ type: "SET_TABLE_DATA", payload: response.data });
-    }
+    tableDispatch({ type: "SET_TABLE_DATA", payload: response.data });
   };
 
   useEffect(() => {
@@ -43,20 +43,16 @@ const TableContextProvider = ({ children }) => {
     return tableData.filter((user) =>
       filterOption === "all"
         ? user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
         : user.role === filterOption &&
-          (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchTerm.toLowerCase()))
+        (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   };
 
   const refreshDataTable = (userId) => {
-    if (userId)
-      tableDispatch({
-        type: "SET_TABLE_DATA",
-        payload: tableState.tableData.filter((user) => user.id !== userId),
-      });
-    else getTableData();
+    userId ?
+      tableDispatch({ type: "SET_TABLE_DATA", payload: tableState.tableData.filter((user) => user.id !== userId) }) : getTableData();
   };
 
   return (

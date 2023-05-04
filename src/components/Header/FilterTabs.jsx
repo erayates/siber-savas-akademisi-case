@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 
+import { TableContext } from "../../context/TableContext";
+
 import { styled } from "@mui/material/styles";
 
-import { TableContext } from "../../context/TableContext";
 
 export default function FilterTabs() {
   const { tableState, tableDispatch } = useContext(TableContext);
+
   const handleChange = (event, newValue) => {
     tableDispatch({ type: "SET_FILTER_OPTION", payload: newValue });
   };
@@ -16,7 +18,6 @@ export default function FilterTabs() {
       backgroundColor: "#2940D3",
       height: "2px",
     },
-
     "& .MuiTab-root": {
       height: "75px",
       color: "#82868C",

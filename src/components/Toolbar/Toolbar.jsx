@@ -1,23 +1,28 @@
-import { Box } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 
+import { Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
 
-import { styles } from "../CustomStyles";
-
 import { TableContext } from "../../context/TableContext";
+import { AlertContext } from '../../context/AlertContext';
+
 import { deleteSelectedUsers } from "../../services/api";
+
 import LoadingModal from "../Modals/LoadingModal";
 
-function Search() {
+import { styles } from "../CustomStyles";
+
+
+
+function Toolbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { tableState, tableDispatch, refreshDataTable } = useContext(TableContext);
+  const { showAlertBox } = useContext(AlertContext);
 
   useEffect(() => {
     tableDispatch({ type: "SET_SEARCH_TERM", payload: searchTerm });
@@ -30,8 +35,9 @@ function Search() {
   const handleDeleteSelectedUsers = async () => {
     if (tableState.selectedUsers.length > 0) {
       setLoading(true);
-      await deleteSelectedUsers(tableState.selectedUsers);
+      const response = await deleteSelectedUsers(tableState.selectedUsers);
       setLoading(false);
+      response ? showAlertBox('success', 'Success! Users was deleted successfully!') : showAlertBox('error', 'Error! Something went wrong!');
       tableDispatch({ type: "SET_SELECTED_USERS", payload: [] });
       refreshDataTable();
     }
@@ -44,9 +50,9 @@ function Search() {
           <SearchIcon sx={styles.searchCompSearchIconStyle} />
           <FormControl variant="standard">
             <Input
-              id="component-simple"
               placeholder="Search"
               onChange={handleChangeSearchTerm}
+              sx={{ fontWeight: '600' }}
             />
           </FormControl>
         </Box>
@@ -63,4 +69,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default Toolbar;

@@ -8,6 +8,7 @@ import {
   Stack,
   Avatar,
   Modal,
+  Alert
 } from "@mui/material";
 
 import { avatarList } from "../../utils/avatars";
@@ -33,6 +34,10 @@ function reducer(state, action) {
       return { ...state, formData: action.payload };
     case "RESET":
       return { ...state, formData: {}, activeAvatar: "", role: "Role" };
+    case "SET_FORM_ERROR":
+      return {...state, formError: action.payload}
+    case "RESET":
+      return { ...state, formData: {}, activeAvatar: "", role: "Role" };
     default:
       return state;
   }
@@ -44,12 +49,13 @@ function UserFormModal() {
     activeAvatar: "",
     role: "Role",
     formData: {},
+    formError: false
   };
 
   const [state, dispatch] = useReducer(reducer, initalState);
   const { refreshDataTable } = useContext(TableContext);
   const { modalState, modalDispatch } = useContext(ModalContext);
-  const { showSuccessAlert } = useContext(AlertContext);
+  const { showAlertBox } = useContext(AlertContext);
 
   useEffect(() => {
     dispatch({ type: "SET_AVATARS", payload: avatarList });
@@ -73,7 +79,9 @@ function UserFormModal() {
 
   const handleClose = () => {
     modalDispatch({ type: "CLOSE_USER_MODAL" });
-    modalDispatch({ type: "SET_SELECTED_USER", payload: null });
+    modalDispatch({ type: "SET_SELECTED_USER", payload: "" });
+    dispatch({type: "SET_FORM_ERROR", payload: false})
+    dispatch({ type: "RESET" })
   };
 
   const handleChangeRole = (event) => {
@@ -88,15 +96,17 @@ function UserFormModal() {
     e.preventDefault();
 
     if (!validateFormData(state.formData)) {
+      dispatch({type: "SET_FORM_ERROR", payload: true})
       return;
     }
 
     if (modalState.selectedUser) {
-      await updateUser(modalState.selectedUser.id, state.formData);
-      showSuccessAlert(`Success! User was updated successfully.`);
+      const response = await updateUser(modalState.selectedUser.id, state.formData);
+      response ? showAlertBox('success', `Success! User was updated successfully.`) : showAlertBox('error', `Error! User was not updated.`);
     } else {
-      await createUser(state.formData);
-      showSuccessAlert(`Success! User was created successfully.`);
+      const response = await createUser(state.formData);
+      response.data ? showAlertBox('success', `Success! User was created successfully.`) : showAlertBox('error', `Error! User was not created.`);
+      
     }
 
     resetAndRefreshTable();
@@ -127,13 +137,18 @@ function UserFormModal() {
     });
   };
 
+  const handleFormError = () => {
+    dispatch({type: "SET_FORM_ERROR", payload: false})
+  }
+
   return (
     <>
       <Modal open={modalState.openUserModal} onClose={handleClose}>
         <Box sx={styles.userFormBoxStyle}>
           <Box sx={styles.userFormInnerBoxStyle}>
             <form onSubmit={handleSubmit} method="POST" autoComplete="false">
-              <FormControl sx={{ width: "100%" }}>
+              {state.formError && <Alert severity="error" sx={{marginBottom: '30px'}} onClose={() => handleFormError()}>Please fill the all fields.</Alert>}
+              <FormControl sx={{ width: "100%",}}>
                 <Input
                   name="name"
                   placeholder="Full Name"

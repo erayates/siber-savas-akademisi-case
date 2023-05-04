@@ -5,7 +5,7 @@ export const styles = {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '300px',
-        
+        outline: 'none',
         padding: '30px',
         borderRadius: '8px',
         boxShadow: '0px 7px 20px rgba(40, 41, 61, 0.08)',
@@ -62,11 +62,21 @@ export const styles = {
         alignItems: 'center',
         justifyContent: 'space-between',
         margin: '0 18px',
+        
+
     },
     
+    headerCompGridStyle:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: '30px'
+    },
+
     headerCompInnerBoxStyle: {
         display: 'flex',
         alignItems: 'center',
+  
     },
     
     headerCompIconBoxStyle: {
@@ -123,7 +133,7 @@ export const styles = {
     dividerStyle:{
         borderWidth: '2px', 
         position:'relative', 
-        top: '-2px',
+        top: '-3px',
         zIndex:'0'
     },
 
@@ -141,17 +151,52 @@ export const styles = {
         bgcolor: 'rgba(255, 255, 255, 0.9)',
     },
 
+    tableResponsiveStyle:{
+        overflowX: 'auto',
+        overflowY: 'hidden',
+    },
+
     
     tableCellStyle:{
         fontWeight: "600",
-        padding: "0" 
+        padding: "0" ,
+        
     },
+
 
     tableCellIconStyle:{
         cursor: "pointer",
         color: "#82868C",
         fontSize: "30px",
+    },
+
+    alertBoxStyle:{
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '500px',
+        textAlign: 'center',
+        zIndex: '9999', 
+    },
+
+    alertStyle:{
+        fontFamily: 'Montserrat',
+        fontWeight: '600',
+        lineHeight: '15px',
+        fontSize: '13px',
+        display: 'flex', 
+        alignItems: 'center', 
+        width: '100%' 
+    },
+
+    loadingModalTextStyle:{
+        marginTop: '30px',
+        fontSize: '16px',
+        fontFamily:'Montserrat'
     }
+
+
 
 
     

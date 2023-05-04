@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Table,TableCell,TableContainer,TableHead,TableRow,TableBody,Avatar,TableFooter,TablePagination,Pagination,Stack,Checkbox,Box} from "@mui/material";
+import { Container,Table,TableCell,TableContainer,TableHead,TableRow,TableBody,Avatar,TableFooter,TablePagination,Pagination,Stack,Checkbox,Box,Paper} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -13,7 +13,7 @@ import { capitalizeFirstLetter } from "../utils/helpers";
 
 import { styles } from "./CustomStyles";
 
-function UserList() {
+function DataTable() {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [users, setUsers] = useState([]);
@@ -42,7 +42,7 @@ function UserList() {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    
   };
 
   const handleChangePage = (event, newPage) => {
@@ -82,9 +82,8 @@ function UserList() {
 
   return (
     <>
-      <Box sx={{ margin: "0 18px" }}>
-        <TableContainer>
-          <Table>
+        <TableContainer sx={styles.tableResponsiveStyle} >
+          <Table style={{minWidth: '1000px'}}>
             <TableHead height={"50px"}>
               <TableRow>
                 <TableCell sx={{ padding: "0" }} width={"8%"}>
@@ -100,14 +99,14 @@ function UserList() {
                 </TableCell>
                 <TableCell sx={styles.tableCellStyle} width={"8%"}>Avatar</TableCell>
                 <TableCell sx={styles.tableCellStyle} width={"18%"}>Name</TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"18%"}>Username</TableCell>
+                <TableCell sx={styles.tableCellStyle} width={"19%"}>Username</TableCell>
                 <TableCell sx={styles.tableCellStyle} width={"25%"}>Email</TableCell>
                 <TableCell sx={styles.tableCellStyle} width={"13%"}>Role</TableCell>
-                <TableCell sx={styles.tableCellStyle} width={"8%"}>Edit</TableCell>
+                <TableCell sx={styles.tableCellStyle} width={"9%"}>Edit</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {(rowsPerPage > 0 && users.length > 0
+              {(rowsPerPage > 0
                 ? users.slice(
                     (page - 1) * rowsPerPage,
                     (page - 1) * rowsPerPage + rowsPerPage
@@ -126,7 +125,7 @@ function UserList() {
                         alt="User Avatar" src={user.avatar} 
                         sx={{ borderRadius: "4px" }}/>
                     </TableCell>
-                    <TableCell>{user.name}</TableCell>
+                    <TableCell style={styles.tableCellStyle}>{user.name}</TableCell>
                     <TableCell>{user.username}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{capitalizeFirstLetter(user.role)}</TableCell>
@@ -143,12 +142,20 @@ function UserList() {
                   </TableRow>
                 );
               })}
+              {users.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    No users found.
+                  </TableCell>
+                </TableRow>
+              )}
 
               <DeleteModal />
               <UserFormModal />
             </TableBody>
             <TableFooter>
-              <TableRow>
+              <TableRow >
+                {users.length > 0 && (
                 <TablePagination
                   count={Math.ceil(users.length / rowsPerPage)}
                   page={page}
@@ -165,14 +172,15 @@ function UserList() {
                       />
                     </Stack>
                   )}
-                />
+                />)}
               </TableRow>
             </TableFooter>
           </Table>
+  
         </TableContainer>
-      </Box>
+    
     </>
   );
 }
 
-export default UserList;
+export default DataTable;

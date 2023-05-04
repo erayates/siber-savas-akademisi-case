@@ -1,6 +1,7 @@
-import { createContext,useReducer } from "react";
+import { createContext, useReducer } from "react";
 
 export const ModalContext = createContext();
+
 const ModalContextProvider = ({ children }) => {
   const initialState = {
     openUserModal: false,

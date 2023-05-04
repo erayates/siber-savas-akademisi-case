@@ -15,18 +15,19 @@ function DeleteModal() {
   const { tableState, refreshDataTable, tableDispatch } =
     useContext(TableContext);
   const { modalState, modalDispatch } = useContext(ModalContext);
-  const { showSuccessAlert, showErrorAlert } = useContext(AlertContext);
+  const { showAlertBox } = useContext(AlertContext);
 
   const handleDelete = async () => {
     if (modalState.selectedUserId) {
-      await deleteUser(modalState.selectedUserId);
+      const response = await deleteUser(modalState.selectedUserId);
       refreshDataTable(modalState.selectedUserId);
       validateSelectedUsers();
       handleCloseDeleteModal();
-      showSuccessAlert("Success! User was deleted successfully!");
+      response ? showAlertBox("success","Success! User was deleted successfully!") : showAlertBox("error","Error! User was not deleted successfully!")
     }
   };
 
+  // This function is used to validate the selected users in the table state.
   const validateSelectedUsers = () => {
     const newSelectedUsers = tableState.selectedUsers.filter((user) => {
       user !== modalState.selectedUserId;
@@ -53,7 +54,7 @@ function DeleteModal() {
             <Button
               variant="outlined"
               onClick={handleCloseDeleteModal}
-              sx={{ marginLeft: "20px" }}
+              sx={{ marginLeft: "20px"}}
             >
               Cancel
             </Button>

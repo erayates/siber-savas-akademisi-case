@@ -1,27 +1,34 @@
 import React from 'react'
-import Search from '../../components/Search/Search'
-import Box from '@mui/material/Box';
+
 import Container from '@mui/material/Container';
 
 import Header from '../../components/Header/Header'
-import UserList from '../../components/UserList';
 import AlertBox from '../../components/AlertBox';
+import DataTable from '../../components/DataTable';
+import Toolbar from '../../components/Toolbar/Toolbar';
+
+import { styled } from '@mui/material/styles';
 
 
+
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    width: '100vh',
+  },
+}));
 
 function Home() {
-  
+
   return (
     <React.Fragment>
-    <Container maxWidth="lg">
-      <Box sx={{ bgcolor: 'white', height: '100vh' }}>
+      <StyledContainer width='sm' maxWidth='lg'>
         <Header />
-        <Search />
-        <UserList />
+        <Toolbar />
+        <DataTable />
         <AlertBox />
-      </Box>
-    </Container>
-  </React.Fragment>
+      </StyledContainer>
+    </React.Fragment>
   )
 }
 

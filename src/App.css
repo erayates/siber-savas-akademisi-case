@@ -1,4 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap');
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #2940d3 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #2940d3;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
+
 
 .delete{
     font-family: 'Montserrat' !important;
@@ -21,3 +42,5 @@
 .MuiOutlinedInput-notchedOutline{
     border: 2px solid #E3E6EB !important; 
 }
+
+

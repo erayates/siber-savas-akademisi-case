@@ -6,39 +6,48 @@ const api = axios.create({
 
 export const getUsers = async () => {
     try {
-        const data = await api.get(`/users`);
-        return data
+        const response = await api.get(`/users`);
+        return response
     } catch (e) {
         console.log(e)
     }
 
 }
 
-export const getUserById = async (id) => {
-    return await api.get(`/users/${id}`).then(res => res.data)
-}
 
 export const createUser = async (payload) => {
     const newUser = { ...payload }
     try {
-        await api.post(`/users`, newUser).then(res => res.data)
+        const response =  await api.post(`/users`, newUser)
+        return response
 
     } catch (e) {
         console.log(e)
+        return false
     }
 
 }
 
 export const updateUser = async (id, payload) => {
-    return await api.put(`/users/${id}`, payload).then(res => res.data)
+    try{
+        const response = await api.put(`/users/${id}`, payload).then(res => res.data)
+        return response
+    }catch(e){
+
+        const response = e.response.data
+        return response
+    }
+   
+ 
 }
 
 export const deleteUser = async (id) => {
     try {
-        await api.delete(`/users/${id}`).then(res => res.data)
-
+        const response = await api.delete(`/users/${id}`).then(res => res.data)
+        return response
     } catch (e) {
-        console.log(e)
+        const response = e.response.data
+        return response
     }
 
 }
@@ -47,10 +56,12 @@ export const deleteSelectedUsers = async (userIds) => {
     try {
         for (let i = 0; i < userIds.length; i++) {
             await api.delete(`/users/${userIds[i]}`);
-            await new Promise(resolve => setTimeout(resolve, 500)); // 500ms bekle
+            await new Promise(resolve => setTimeout(resolve, 1000)); 
         }
+        return true
+        
     } catch (e) {
-        console.log(e)
+        return false
     }
 
 }
